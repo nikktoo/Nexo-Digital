@@ -1,0 +1,24 @@
+.search-bar {
+    border-radius: 50px;
+    border: 1px solid #ccc;
+    padding: 0.5rem 1rem;
+}
+
+.search-input {
+    border: none;
+    outline: none;
+    width: 100%;
+    background: transparent;
+}
+
+.nav-bottom-link {
+    color: #333;
+    font-weight: 500;
+    font-size: 0.95rem;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+}
+
+.nav-bottom-link:hover {
+    color: #0d6efd;
+}
