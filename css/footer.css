@@ -1,8 +1,0 @@
-/* Estilos del pie de página */
-.footer-link {
-    transition: color 0.2s ease-in-out;
-}
-
-.footer-link:hover {
-    color: #d3312c !important;
-}
