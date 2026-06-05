@@ -1,111 +1,80 @@
+{% extends "web/base.html" %}
+
 {% load static %}
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Envíos - Nexo Digital</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" %} rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
-    <link rel="stylesheet" href="{% static 'css/main.css" %}>
-    <link rel="stylesheet" href="{% static 'css/navbar.css" %}>
-    <link rel="stylesheet" href="{% static 'css/footer.css" %}>
-</head>
-<body class="bg-white">
-<header class="py-3 bg-white border-bottom">
-    <div class="container d-flex flex-wrap justify-content-between align-items-center gap-3">
-        <a href="{% url 'web:index' %}"
-            class="d-flex align-items-center text-dark text-decoration-none col-12 col-lg-auto justify-content-center">
-            <img src="{% static 'assets/Logo.jpeg" %} alt="Nexo Digital Logo"
-                style="width: 45px; height: 45px; object-fit: cover;"
-                class="rounded-circle shadow-sm">
-            <span class="fs-4 fw-bold ms-2">Nexo Digital</span>
-        </a>
-        <div class="col-12 col-lg-auto d-flex justify-content-center align-items-center gap-4">
-            <a href="{% url 'web:login' %}" class="text-dark text-decoration-none d-flex align-items-center">
-                <i class="bi bi-person fs-4 me-1"></i> Entrar
-            </a>
-            <a href="carrito.html" class="text-dark text-decoration-none position-relative">
-                <i class="bi bi-cart3 fs-4"></i>
-                <span class="badge bg-secondary cart-badge">0</span>
-            </a>
+
+{% block title %}Envíos - Nexo Digital{% endblock %}
+
+{% block content %}
+    <main class="container py-5">
+        <div class="p-5 mb-4 bg-primary text-white rounded-3">
+            <h1 class="fw-bold">🚚 Información de Envíos</h1>
+            <p class="mb-0">Rápido, seguro y con seguimiento en todo Chile</p>
         </div>
-    </div>
-</header>
-<nav class="border-top border-bottom bg-white sticky-top shadow-sm d-none d-lg-block">
-    <div class="container d-flex justify-content-between py-2">
-        <div class="d-flex gap-2">
-            <a href="{% url 'web:index' %}" class="nav-bottom-link">Inicio</a>
-            <a href="{% url 'web:productos' %}" class="nav-bottom-link">Productos</a>
-            <a href="{% url 'web:oferta' %}" class="nav-bottom-link">Ofertas</a>
-        </div>
-        <div class="d-flex gap-2">
-            <a href="{% url 'web:envios' %}" class="nav-bottom-link fw-bold text-primary">Envíos</a>
-            <a href="{% url 'web:garantia' %}" class="nav-bottom-link">Devoluciones y Garantía</a>
-        </div>
-    </div>
-</nav>
-<main class="container py-5">
-    <div class="p-5 mb-4 bg-primary text-white rounded-3">
-        <h1 class="fw-bold">🚚 Información de Envíos</h1>
-        <p class="mb-0">Rápido, seguro y con seguimiento en todo Chile</p>
-    </div>
-    <div class="row g-4">
-        <div class="col-lg-8">
-            <div class="card border-0 shadow-sm p-4 mb-4">
-                <h3 class="fw-bold mb-3">📦 Costo de despacho</h3>
-                <p class="mb-2">
-                    En <strong>Nexo Digital</strong> contamos con un sistema de envío estándar para todos los productos.
-                </p>
-                <div class="alert alert-info mt-3">
-                    💰 Costo fijo de despacho: <strong>$10.990 CLP</strong>
+        <div class="row g-4">
+            <div class="col-lg-8">
+                <div class="card border-0 shadow-sm p-4 mb-4">
+                    <h3 class="fw-bold mb-3">📦 Costo de despacho</h3>
+                    <p class="mb-2">
+                        En <strong>Nexo Digital</strong> contamos con un sistema de envío estándar para todos los productos.
+                    </p>
+                    <div class="alert alert-info mt-3">
+                        💰 Costo fijo de despacho: <strong>$10.990 CLP</strong>
+                    </div>
+                    <p class="text-muted mb-0">
+                        Este valor se aplica automáticamente en el checkout cuando seleccionas "Despacho a domicilio".
+                    </p>
                 </div>
-                <p class="text-muted mb-0">
-                    Este valor se aplica automáticamente en el checkout cuando seleccionas “Despacho a domicilio”.
-                </p>
+                <div class="card border-0 shadow-sm p-4 mb-4">
+                    <h3 class="fw-bold mb-3">⏱️ Tiempos de entrega</h3>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">📍 Región Metropolitana: 24 a 48 horas hábiles</li>
+                        <li class="list-group-item">📍 Valparaíso, O'Higgins, Maule: 48 a 72 horas hábiles</li>
+                        <li class="list-group-item">📍 Ñuble, Biobío, La Araucanía: 2 a 4 días hábiles</li>
+                        <li class="list-group-item">📍 Los Ríos, Los Lagos: 3 a 5 días hábiles</li>
+                        <li class="list-group-item">📍 Aysén, Magallanes: 5 a 7 días hábiles</li>
+                    </ul>
+                </div>
+                <div class="card border-0 shadow-sm p-4">
+                    <h3 class="fw-bold mb-3">📍 Retiro en tienda</h3>
+                    <p>
+                        También puedes seleccionar <strong>"Retiro en tienda"</strong> durante el pago. Abonando solo los productos sin costo de envío.
+                    </p>
+                    <p class="text-muted mb-0">
+                        Ubicación: Avenida Tusca, Capital. Lunes a Viernes: 9:00 - 18:00 hrs
+                    </p>
+                </div>
             </div>
-            <div class="card border-0 shadow-sm p-4 mb-4">
-                <h3 class="fw-bold mb-3">⏱️ Tiempos de entrega</h3>
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item">📍 Región Metropolitana: 24 a 48 horas hábiles</li>
-                    <li class="list-group-item">📍 Valparaíso, O’Higgins, Maule: 48 a 72 horas hábiles</li>
-                    <li class="list-group-item">📍 Ñuble, Biobío, La Araucanía: 2 a 4 días hábiles</li>
-                    <li class="list-group-item">📍 Los Ríos, Los Lagos: 3 a 5 días hábiles</li>
-                    <li class="list-group-item">📍 Aysén, Magallanes: 5 a 7 días hábiles</li>
-                </ul>
-            </div>
-            <div class="card border-0 shadow-sm p-4">
-                <h3 class="fw-bold mb-3">📍 Retiro en tienda</h3>
-                <p class="mb-0">
-                    También puedes seleccionar <strong>“Retiro en tienda”</strong> durante el pago.
-                    Esta opción es completamente gratuita y tu pedido estará listo en 2 a 4 horas hábiles.
-                </p>
+            <div class="col-lg-4">
+                <div class="card border-0 shadow-sm p-4 bg-light">
+                    <h4 class="fw-bold mb-3">❓ Preguntas frecuentes</h4>
+                    <div class="accordion" id="faqAccordion">
+                        <div class="accordion-item border-0">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                                    ¿Puedo cambiar la dirección después de comprar?
+                                </button>
+                            </h2>
+                            <div id="faq1" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    Sí, siempre que no haya sido despachado. Contáctanos al 800 123 3211.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item border-0">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                                    ¿Ofrecen envío gratis?
+                                </button>
+                            </h2>
+                            <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    No en este momento, pero puedes optar por retiro en tienda sin costo.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="col-lg-4">
-            <div class="card border-0 shadow-sm p-4 sticky-top" style="top: 20px;">
-                <h5 class="fw-bold mb-3">📌 Resumen de envío</h5>
-                <div class="d-flex justify-content-between mb-2">
-                    <span>Despacho estándar</span>
-                    <span class="fw-bold">$10.990</span>
-                </div>
-                <div class="d-flex justify-content-between mb-2">
-                    <span>Retiro en tienda</span>
-                    <span class="fw-bold text-success">Gratis</span>
-                </div>
-                <hr>
-                <p class="text-muted small mb-0">
-                    El costo final se calcula automáticamente en el checkout según el método de entrega seleccionado.
-                </p>
-            </div>
-        </div>
-    </div>
-</main>
-<footer class="bg-dark text-white pt-5 pb-4 mt-5">
-    <div class="container text-center">
-        <p class="mb-0">&copy; 2026 Nexo Digital - Todos los derechos reservados</p>
-    </div>
-</footer>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+    </main>
+{% endblock %}

@@ -5,234 +5,230 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Panel de Control - Nexo Digital</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" %} rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
-    <style>
-        :root { --nexo-blue: #0d6efd; --sidebar-bg: #212529; }
-        body { background-color: #f8f9fa; }
-        .sidebar { background-color: var(--sidebar-bg); min-height: 100vh; color: white; }
-        .sidebar .nav-link { color: rgba(255,255,255,0.75); transition: 0.3s; border-radius: 5px; margin-bottom: 5px; }
-        .sidebar .nav-link:hover, .sidebar .nav-link.active { color: white; background-color: var(--nexo-blue); }
-        .admin-section { display: none; }
-        .admin-section.active { display: block; }
-        .card-stat { border: none; border-left: 4px solid var(--nexo-blue); transition: 0.3s; }
-        .card-stat:hover { transform: translateY(-5px); }
-    </style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+    <link rel="stylesheet" href="{% static 'css/admin.css' %}">
 </head>
-<body>
 
-    <header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
-        <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-5 d-flex align-items-center fw-bold" href="{% url 'web:index' %}">
-            <img src="{% static 'assets/Logo.jpeg" %} alt="Logo" style="width: 30px; height: 30px;" class="rounded-circle me-2">
-            Nexo Digital
-        </a>
-        <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="navbar-nav w-100 d-flex flex-row justify-content-end px-3">
-            <div class="nav-item text-nowrap d-flex align-items-center">
-                <span class="text-white-50 me-3">Bienvenido, Administrador</span>
-                <a class="btn btn-outline-light btn-sm" href="{% url 'web:index' %}">Salir</a>
+<body>
+    <div class="top-header">
+        <div style="display: flex; align-items: center; gap: 10px;">
+            <button class="sidebar-toggle" onclick="toggleSidebar()"><i class="bi bi-list"></i></button>
+            <div>
+                <h5><i class="bi bi-at me-2"></i> Nexo Digital</h5>
             </div>
         </div>
-    </header>
-
-    <div class="container-fluid">
-        <div class="row">
-            <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block sidebar collapse">
-                <div class="position-sticky pt-3">
-                    <ul class="nav flex-column px-2">
-                        <li class="nav-item">
-                            <a class="nav-link active" href="#" onclick="showSection('sec-inventario', this)">
-                                <i class="bi bi-box-seam me-2"></i> Inventario
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#" onclick="showSection('sec-pedidos', this)">
-                                <i class="bi bi-cart-check me-2"></i> Pedidos
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#" onclick="showSection('sec-clientes', this)">
-                                <i class="bi bi-people me-2"></i> Clientes
-                            </a>
-                        </li>
-                        <li class="nav-item mt-4">
-                            <hr class="text-white-50">
-                            <a class="nav-link bg-success text-white" href="#" onclick="showSection('sec-nuevo-producto', this)">
-                                <i class="bi bi-plus-circle me-2"></i> Nuevo Producto
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </nav>
-
-            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-                
-                <section id="sec-inventario" class="admin-section active py-4">
-                    <div class="d-flex justify-content-between align-items-center mb-4">
-                        <h2 class="fw-bold">Gestión de Inventario</h2>
-                        <span class="badge bg-primary px-3 py-2">Total: 42 Productos</span>
-                    </div>
-                    <div class="card shadow-sm border-0 rounded-3">
-                        <div class="table-responsive">
-                            <table class="table table-hover align-middle mb-0">
-                                <thead class="table-dark">
-                                    <tr>
-                                        <th>Producto</th>
-                                        <th>Categoría</th>
-                                        <th>Precio</th>
-                                        <th>Stock</th>
-                                        <th>Acciones</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td><strong>Router Gigabit Pro</strong></td>
-                                        <td>Networking</td>
-                                        <td>$129.990</td>
-                                        <td><span class="badge bg-success">15 unidades</span></td>
-                                        <td>
-                                            <button class="btn btn-sm btn-outline-primary"><i class="bi bi-pencil"></i></button>
-                                            <button class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></button>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </section>
-
-                <section id="sec-pedidos" class="admin-section py-4">
-                    <h2 class="fw-bold mb-4">Pedidos Recientes</h2>
-                    <div class="table-responsive card shadow-sm border-0">
-                        <table class="table table-hover align-middle mb-0">
-                            <thead class="table-light">
-                                <tr>
-                                    <th>ID Pedido</th>
-                                    <th>Cliente</th>
-                                    <th>Fecha</th>
-                                    <th>Total</th>
-                                    <th>Estado</th>
-                                    <th>Acción</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>#ND-9921</td>
-                                    <td>Juan Pérez</td>
-                                    <td>20/05/2026</td>
-                                    <td>$250.000</td>
-                                    <td><span class="badge bg-warning text-dark">Pendiente</span></td>
-                                    <td><button class="btn btn-sm btn-primary">Detalle</button></td>
-                                </tr>
-                                <tr>
-                                    <td>#ND-9920</td>
-                                    <td>Empresa Tech Ltda.</td>
-                                    <td>19/05/2026</td>
-                                    <td>$1.450.000</td>
-                                    <td><span class="badge bg-success">Enviado</span></td>
-                                    <td><button class="btn btn-sm btn-primary">Detalle</button></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </section>
-
-                <section id="sec-clientes" class="admin-section py-4">
-                    <h2 class="fw-bold mb-4">Base de Datos de Clientes</h2>
-                    <div class="row g-3">
-                        <div class="col-md-4">
-                            <div class="card p-3 shadow-sm border-0 text-center">
-                                <h6 class="text-muted">Total Registrados</h6>
-                                <h3 class="fw-bold">1,240</h3>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="mt-4 table-responsive card shadow-sm border-0">
-                        <table class="table table-hover align-middle mb-0">
-                            <thead>
-                                <tr>
-                                    <th>Nombre</th>
-                                    <th>Correo</th>
-                                    <th>Tipo</th>
-                                    <th>Compras</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>Cristian Soto</td>
-                                    <td>csoto@mail.com</td>
-                                    <td><span class="badge border text-dark">Empresa</span></td>
-                                    <td>12 pedidos</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </section>
-
-                <section id="sec-nuevo-producto" class="admin-section py-4">
-                    <div class="card shadow border-0 max-width-700 mx-auto">
-                        <div class="card-header bg-success text-white py-3">
-                            <h4 class="mb-0 fw-bold"><i class="bi bi-plus-circle me-2"></i> Registrar Nuevo Equipo</h4>
-                        </div>
-                        <div class="card-body p-4">
-                            <form>
-                                <div class="row g-3">
-                                    <div class="col-md-8">
-                                        <label class="form-label fw-bold">Nombre del Producto</label>
-                                        <input type="text" class="form-control" placeholder="Ej: Antena Parabolica PtP">
-                                    </div>
-                                    <div class="col-md-4">
-                                        <label class="form-label fw-bold">Categoría</label>
-                                        <select class="form-select">
-                                            <option>Networking</option>
-                                            <option>Inalámbrico</option>
-                                            <option>Data Center</option>
-                                            <option>Herramientas</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-12">
-                                        <label class="form-label fw-bold">Descripción Técnica</label>
-                                        <textarea class="form-control" rows="3"></textarea>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label class="form-label fw-bold">Precio de Venta ($)</label>
-                                        <input type="number" class="form-control">
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label class="form-label fw-bold">Stock Inicial</label>
-                                        <input type="number" class="form-control">
-                                    </div>
-                                    <div class="col-12">
-                                        <label class="form-label fw-bold">Imagen del Producto</label>
-                                        <input type="file" class="form-control">
-                                    </div>
-                                    <div class="col-12 mt-4">
-                                        <button type="submit" class="btn btn-success w-100 py-2 fw-bold">Guardar en Base de Datos</button>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </section>
-
-            </main>
+        <div class="user-info">
+            <span style="font-size: 12px; color: #999;">Admin User</span>
+            <small style="color: #bbb;">Administrador</small>
+            <div class="avatar"><i class="bi bi-person" style="color: #999;"></i></div>
         </div>
     </div>
 
+    <div class="sidebar">
+        <div style="padding: 15px 0; border-bottom: 1px solid rgba(255,255,255,0.1);">
+            <div class="sidebar-toggle"><i class="bi bi-list"></i></div>
+        </div>
+        <div class="sidebar-icons">
+            <div class="sidebar-icon" title="Dashboard"><i class="bi bi-house-door"></i></div>
+            <div class="sidebar-icon" title="Configuración"><i class="bi bi-gear"></i></div>
+            <div class="sidebar-icon" title="Reportes"><i class="bi bi-file-earmark"></i></div>
+            <div class="sidebar-icon" title="Usuarios"><i class="bi bi-people"></i></div>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="kpi-container">
+            <div class="kpi-card dark">
+                <div class="kpi-icon"><i class="bi bi-bag-check"></i></div>
+                <div class="kpi-label">Ventas Totales</div>
+                <div class="kpi-value">21 324</div>
+                <small style="color: #aaa;">+5 esta semana</small>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-icon" style="color: #666;"><i class="bi bi-currency-dollar"></i></div>
+                <div class="kpi-label">Ingresos Totales</div>
+                <div class="kpi-value">$221,324.50</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-icon" style="color: #666;"><i class="bi bi-eye"></i></div>
+                <div class="kpi-label">Visitas</div>
+                <div class="kpi-value">16 703</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-icon" style="color: #666;"><i class="bi bi-list-check"></i></div>
+                <div class="kpi-label">Categorías más frecuentadas</div>
+                <div style="margin-top: 10px; display: flex; gap: 8px; flex-wrap: wrap;">
+                    <span class="badge-sm" style="background-color: #f0f1f5; color: #666;">Electronics</span>
+                    <span class="badge-sm" style="background-color: #f0f1f5; color: #666;">Furniture</span>
+                    <span class="badge-sm" style="background-color: #f0f1f5; color: #666;">Networking</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <div>
+                <div class="content-card">
+                    <div class="card-title">
+                        Gráfico de Ventas
+                        <i class="bi bi-three-dots-vertical card-icon"></i>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="salesChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="content-card" style="margin-top: 20px;">
+                    <div class="card-title">
+                        Clientes Recientes
+                        <i class="bi bi-three-dots-vertical card-icon"></i>
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Nombre</th>
+                                <th>Fecha de Orden</th>
+                                <th>Teléfono</th>
+                                <th>Ubicación</th>
+                                <th>Registrado</th>
+                                <th style="text-align: center;">Acción</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Juan Pérez</strong></td>
+                                <td>19 May, 2024 10:35 AM</td>
+                                <td>291-621-3362</td>
+                                <td>Santiago</td>
+                                <td>Sí</td>
+                                <td style="text-align: center;"><a href="#" style="color: #0066cc; font-size: 12px; text-decoration: none;">Detalles</a></td>
+                            </tr>
+                            <tr>
+                                <td><strong>María González</strong></td>
+                                <td>18 May, 2024 3:32 PM</td>
+                                <td>171-328-3262</td>
+                                <td>Valparaíso</td>
+                                <td>No</td>
+                                <td style="text-align: center;"><a href="#" style="color: #0066cc; font-size: 12px; text-decoration: none;">Detalles</a></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Carlos López</strong></td>
+                                <td>17 May, 2024 2:35 PM</td>
+                                <td>974-563-3130</td>
+                                <td>Concepción</td>
+                                <td>Sí</td>
+                                <td style="text-align: center;"><a href="#" style="color: #0066cc; font-size: 12px; text-decoration: none;">Detalles</a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="pagination">
+                        <span>1</span>
+                        <span class="current">2</span>
+                        <span>3</span>
+                        <span>4</span>
+                        <span>5</span>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <div class="preview-section">
+                    <div class="preview-title">Vista Previa</div>
+
+                    <div class="preview-item">
+                        Producto
+                        <small>Ver, Añadir o Eliminar producto</small>
+                    </div>
+
+                    <div class="preview-item">
+                        Categoría
+                        <small>Ver, Añadir o Eliminar categoría</small>
+                    </div>
+
+                    <div style="background-color: #f8f9fa; padding: 15px; border-radius: 5px; margin-bottom: 15px;">
+                        <div style="color: #666; font-size: 12px; margin-bottom: 8px;">Stock de Inventario</div>
+                        <div style="font-size: 32px; font-weight: bold; color: #333;">76</div>
+                        <small style="color: #999;">Productos en stock</small>
+                    </div>
+
+                    <div class="preview-image">
+                        <i class="bi bi-image" style="font-size: 40px; color: #ddd;"></i>
+                    </div>
+
+                    <div style="background-color: #f8f9fa; padding: 15px; border-radius: 5px;">
+                        <div style="color: #666; font-weight: 600; margin-bottom: 10px;">Producto Ejemplo</div>
+                        <small style="color: #999; display: block; margin-bottom: 10px;">Descripción del producto</small>
+                        <div style="color: #333; font-size: 18px; font-weight: bold;">$99.990</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        function showSection(sectionId, element) {
-            // Ocultar todas las secciones
-            document.querySelectorAll('.admin-section').forEach(sec => sec.classList.remove('active'));
-            // Mostrar la seleccionada
-            document.getElementById(sectionId).classList.add('active');
-            
-            // Actualizar estado activo en sidebar
-            document.querySelectorAll('.sidebar .nav-link').forEach(link => link.classList.remove('active'));
-            element.classList.add('active');
+        const ctx = document.getElementById('salesChart').getContext('2d');
+        const chart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May'],
+                datasets: [
+                    {
+                        label: 'Networking',
+                        data: [30, 25, 35, 40, 45],
+                        borderColor: '#333',
+                        borderWidth: 2,
+                        fill: false,
+                        tension: 0.4,
+                        pointRadius: 4,
+                        pointBackgroundColor: '#333'
+                    },
+                    {
+                        label: 'Accesorios',
+                        data: [20, 22, 25, 20, 30],
+                        borderColor: '#666',
+                        borderWidth: 2,
+                        fill: false,
+                        tension: 0.4,
+                        pointRadius: 4,
+                        pointBackgroundColor: '#666'
+                    },
+                    {
+                        label: 'Servidores',
+                        data: [25, 28, 30, 32, 35],
+                        borderColor: '#999',
+                        borderWidth: 2,
+                        fill: false,
+                        tension: 0.4,
+                        pointRadius: 4,
+                        pointBackgroundColor: '#999'
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'bottom',
+                        labels: {
+                            usePointStyle: true,
+                            padding: 15,
+                            font: { size: 11 }
+                        }
+                    }
+                },
+                scales: {
+                    y: { beginAtZero: true, max: 50 }
+                }
+            }
+        });
+
+        function toggleSidebar() {
+            console.log('Toggle sidebar');
         }
     </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
