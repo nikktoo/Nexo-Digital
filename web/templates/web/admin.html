@@ -1,10 +1,11 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Panel de Control - Nexo Digital</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" %} rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
     <style>
         :root { --nexo-blue: #0d6efd; --sidebar-bg: #212529; }
@@ -21,8 +22,8 @@
 <body>
 
     <header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
-        <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-5 d-flex align-items-center fw-bold" href="index.html">
-            <img src="assets/Logo.jpeg" alt="Logo" style="width: 30px; height: 30px;" class="rounded-circle me-2">
+        <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-5 d-flex align-items-center fw-bold" href="{% url 'web:index' %}">
+            <img src="{% static 'assets/Logo.jpeg" %} alt="Logo" style="width: 30px; height: 30px;" class="rounded-circle me-2">
             Nexo Digital
         </a>
         <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu">
@@ -31,7 +32,7 @@
         <div class="navbar-nav w-100 d-flex flex-row justify-content-end px-3">
             <div class="nav-item text-nowrap d-flex align-items-center">
                 <span class="text-white-50 me-3">Bienvenido, Administrador</span>
-                <a class="btn btn-outline-light btn-sm" href="index.html">Salir</a>
+                <a class="btn btn-outline-light btn-sm" href="{% url 'web:index' %}">Salir</a>
             </div>
         </div>
     </header>
