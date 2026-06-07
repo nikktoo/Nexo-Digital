@@ -102,9 +102,9 @@ def productos(request):
     return render(request, 'web/productos.html')
 
 @login_required(login_url='web:auth')
-def oferta(request):
+def mision(request):
     """Offers page - requires authentication"""
-    return render(request, 'web/oferta.html')
+    return render(request, 'web/mision.html')
 
 @login_required(login_url='web:auth')
 def pago(request):
@@ -120,6 +120,11 @@ def envios(request):
 def garantia(request):
     """Warranty and returns page - requires authentication"""
     return render(request, 'web/garantia.html')
+
+@login_required(login_url='web:auth')
+def contacto(request):
+    """Contact page - requires authentication"""
+    return render(request, 'web/contacto.html')
 
 @login_required(login_url='web:auth')
 def admin(request):

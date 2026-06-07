@@ -6,7 +6,7 @@
 
 {% block content %}
     <section class="hero-minimal pt-5 pb-4">
-        <h1 class="display-3 fw-bold mb-5 text-dark" style="letter-spacing: -1px;">Construimos la infraestructura que sostiene tus grandes ideas.</h1>
+        <h1 class="display-10 fw-bold mb-5 text-dark" style="letter-spacing: -2px;">Construimos la infraestructura que sostiene tus grandes ideas.</h1>
         <div class="d-flex flex-wrap justify-content-center gap-3 mb-5">
             <a href="{% url 'web:productos' %}" class="btn btn-custom-blue">PRODUCTOS</a>
         </div>
@@ -89,43 +89,85 @@
         </div>
     </section>
 
-    <section id="contacto" class="bg-light py-5 mt-5 border-top">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-lg-8 text-center mb-5">
-                    <h2 class="fw-bold">Envíanos un mensaje</h2>
-                    <p class="text">¿Necesitas una cotización por volumen para tu proyecto de red? Escríbenos.</p>
+
+    <section class="container my-5 py-4 position-relative">
+        <div class="d-flex justify-content-between align-items-end mb-4">
+            <h2 class="fw-bold m-0 text-dark" style="font-size: 1.8rem;">Recien Llegados</h2>
+            <a href="{% url 'web:productos' %}" class="text-dark fw-bold text-decoration-underline text-uppercase" style="font-size: 0.85rem; letter-spacing: 0.5px;">Explorar mas productos</a>
+        </div>
+
+        <div class="position-relative">
+            <div class="scrolling-wrapper" id="destacados-scroll">
+                <div class="product-card-simple">
+                    <div class="img-bg">
+                        <span class="badge-new">NEW</span>
+                        <img src="https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=500" alt="Router">
+                    </div>
+                    <div class="text-start">
+                        <h6 class="fw-bold mb-1 text-dark fs-5">Router Gigabit Empresarial</h6>
+                        <p class="text-muted small mb-2">Networking, Dual Band, Black</p>
+                        <h5 class="fw-bold text-dark mb-2">$129.990</h5>
+                        <button class="btn btn-sm btn-outline-dark w-100" onclick="addToCart('prod1', 'Router Gigabit', 129990, 'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=500')">Añadir al Carrito</button>
+                    </div>
                 </div>
-            </div>
-            <div class="row justify-content-center">
-                <div class="col-lg-8">
-                    <div class="bg-white p-4 p-md-5 rounded-3 shadow-sm border">
-                        <form id="contactForm">
-                            <div class="row g-3">
-                                <div class="col-md-6">
-                                    <label class="form-label fw-semibold">Nombre Completo *</label>
-                                    <input type="text" class="form-control focus-ring focus-ring-light bg-light border-0 py-2" placeholder="Ej. Juan Pérez" required>
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="form-label fw-semibold">Empresa (Opcional)</label>
-                                    <input type="text" class="form-control focus-ring focus-ring-light bg-light border-0 py-2" placeholder="Nombre de tu compañía">
-                                </div>
-                                <div class="col-12">
-                                    <label class="form-label fw-semibold">Correo Electrónico *</label>
-                                    <input type="email" class="form-control focus-ring focus-ring-light bg-light border-0 py-2" placeholder="tu@correo.com" required>
-                                </div>
-                                <div class="col-12">
-                                    <label class="form-label fw-semibold">Mensaje o Solicitud *</label>
-                                    <textarea class="form-control focus-ring focus-ring-light bg-light border-0 py-2" rows="4" placeholder="Describe los equipos que necesitas..." required></textarea>
-                                </div>
-                                <div class="col-12 mt-4">
-                                    <button type="button" class="btn btn-primary btn-lg w-100 fw-bold">Enviar Mensaje</button>
-                                </div>
-                            </div>
-                        </form>
+                <div class="product-card-simple">
+                    <div class="img-bg">
+                        <img src="https://images.unsplash.com/photo-1628126235206-5260b9ea6441?w=500" alt="Antena">
+                    </div>
+                    <div class="text-start">
+                        <h6 class="fw-bold mb-1 text-dark fs-5">Antena Parabólica PtP</h6>
+                        <p class="text-muted small mb-2">Inalámbrico, 5GHz, Blanco</p>
+                        <h5 class="fw-bold text-dark mb-2">$385.500</h5>
+                        <button class="btn btn-sm btn-outline-dark w-100" onclick="addToCart('prod3', 'Antena 5GHz PtP', 385500, 'https://images.unsplash.com/photo-1628126235206-5260b9ea6441?w=500')">Añadir al Carrito</button>
+                    </div>
+                </div>
+                <div class="product-card-simple">
+                    <div class="img-bg">
+                        <span class="badge-new">NEW</span>
+                        <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=500" alt="Switch">
+                    </div>
+                    <div class="text-start">
+                        <h6 class="fw-bold mb-1 text-dark fs-5">Switch PoE 24 Puertos</h6>
+                        <p class="text-muted small mb-2">Switches, Capa 2, Black</p>
+                        <h5 class="fw-bold text-dark mb-2">$624.900</h5>
+                        <button class="btn btn-sm btn-outline-dark w-100" onclick="addToCart('prod2', 'Switch PoE', 624900, 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=500')">Añadir al Carrito</button>
+                    </div>
+                </div>
+                <div class="product-card-simple">
+                    <div class="img-bg">
+                        <img src="https://images.unsplash.com/photo-1563207153-f403bf289096?w=500" alt="Cable">
+                    </div>
+                    <div class="text-start">
+                        <h6 class="fw-bold mb-1 text-dark fs-5">Bobina UTP Cat 6</h6>
+                        <p class="text-muted small mb-2">Infraestructura, 305m, Gris</p>
+                        <h5 class="fw-bold text-dark mb-2">$95.000</h5>
+                        <button class="btn btn-sm btn-outline-dark w-100" onclick="addToCart('prod4', 'Bobina UTP', 95000, 'https://images.unsplash.com/photo-1563207153-f403bf289096?w=500')">Añadir al Carrito</button>
+                    </div>
+                </div>
+                <div class="product-card-simple">
+                    <div class="img-bg">
+                        <img src="https://images.unsplash.com/photo-1542751110-97427bbecf20?w=500" alt="Servidor">
+                    </div>
+                    <div class="text-start">
+                        <h6 class="fw-bold mb-1 text-dark fs-5">Servidor Rackeable 1U</h6>
+                        <p class="text-muted small mb-2">Data Center, Dual CPU, Plata</p>
+                        <h5 class="fw-bold text-dark mb-2">$1.250.000</h5>
+                        <button class="btn btn-sm btn-outline-dark w-100" onclick="addToCart('prod5', 'Servidor Rack 1U', 1250000, 'https://images.unsplash.com/photo-1542751110-97427bbecf20?w=500')">Añadir al Carrito</button>
                     </div>
                 </div>
             </div>
+            <button class="scroll-btn-right" onclick="document.getElementById('destacados-scroll').scrollBy({left: 300, behavior: 'smooth'})">
+                <i class="bi bi-chevron-right fs-5"></i>
+            </button>
         </div>
     </section>
+
+
+    <section class="bg-light py-5">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="fw-bold text-dark">¿Tienes alguna consulta o necesitas asesoría personalizada?</h2>
+                <p class="text-muted">Nuestro equipo de expertos está listo para ayudarte a encontrar las soluciones de red perfectas para tu proyecto.</p>
+                <a href="{% url 'web:contacto' %}" class="btn btn-custom-blue mt-3">Contáctanos</a>
+            </div>
 {% endblock %}
