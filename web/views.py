@@ -3,6 +3,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from .models import UserProfile
 
 def auth_view(request):
     """Handle authentication page with login and registration"""
@@ -71,6 +72,8 @@ def register_view(request):
                 password=password,
                 first_name=full_name
             )
+
+            UserProfile.objects.create(user=user, role='client')
 
             user_auth = authenticate(request, username=username, password=password)
             if user_auth is not None:

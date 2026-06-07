@@ -28,6 +28,10 @@
             </div>
             <div class="col-12 col-lg-auto d-flex justify-content-center align-items-center gap-4">
                 {% if user.is_authenticated %}
+                    <div class="d-flex align-items-center gap-2">
+                        <i class="bi bi-person-circle text-primary fs-5"></i>
+                        <span class="text-dark small fw-semibold">{{ user.first_name|default:user.username }}</span>
+                    </div>
                     <a href="{% url 'web:logout' %}" class="text-dark text-decoration-none d-flex align-items-center">
                         <i class="bi bi-box-arrow-right fs-4 me-1"></i> Salir
                     </a>
@@ -125,6 +129,8 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="{% static 'js/cart.js' %}"></script>
+    <script src="{% static 'js/contact.js' %}"></script>
+    <script src="{% static 'js/search.js' %}"></script>
     {% block extra_js %}{% endblock %}
 </body>
 </html>
