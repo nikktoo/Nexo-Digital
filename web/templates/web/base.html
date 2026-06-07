@@ -30,7 +30,7 @@
                 {% if user.is_authenticated %}
                     <div class="d-flex align-items-center gap-2">
                         <i class="bi bi-person-circle text-primary fs-5"></i>
-                        <span class="text-dark small fw-semibold">{{ user.first_name|default:user.username }}</span>
+                        <span class="text-dark small fw-semibold"> Sr/a {{ user.first_name|default:user.username }}</span>
                     </div>
                     <a href="{% url 'web:logout' %}" class="text-dark text-decoration-none d-flex align-items-center">
                         <i class="bi bi-box-arrow-right fs-4 me-1"></i> Salir
@@ -105,10 +105,6 @@
                             <span class="text">ventas@nexodigital.com</span>
                         </li>
                     </ul>
-                </div>
-                <div class="col-lg-5 col-md-6">
-                    <h5 class="fw-bold mb-3">Tienda Fisica </h5>
-                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3195.400711173208!2d-73.08631652373856!3d-36.78494177594418!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9669b5d29feca1a7%3A0x10c916398bdbf4bd!2sBiblioteca%20USM%20Sede%20Concepci%C3%B3n!5e0!3m2!1ses!2scl!4v1780810111591!5m2!1ses!2scl" width="100%" height="300" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                 </div>
 
             </div>
