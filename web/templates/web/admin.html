@@ -1,0 +1,234 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Control - Nexo Digital</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+    <link rel="stylesheet" href="{% static 'css/admin.css' %}">
+</head>
+
+<body>
+    <div class="top-header">
+        <div style="display: flex; align-items: center; gap: 10px;">
+            <button class="sidebar-toggle" onclick="toggleSidebar()"><i class="bi bi-list"></i></button>
+            <div>
+                <h5><i class="bi bi-at me-2"></i> Nexo Digital</h5>
+            </div>
+        </div>
+        <div class="user-info">
+            <span style="font-size: 12px; color: #999;">Admin User</span>
+            <small style="color: #bbb;">Administrador</small>
+            <div class="avatar"><i class="bi bi-person" style="color: #999;"></i></div>
+        </div>
+    </div>
+
+    <div class="sidebar">
+        <div style="padding: 15px 0; border-bottom: 1px solid rgba(255,255,255,0.1);">
+            <div class="sidebar-toggle"><i class="bi bi-list"></i></div>
+        </div>
+        <div class="sidebar-icons">
+            <div class="sidebar-icon" title="Dashboard"><i class="bi bi-house-door"></i></div>
+            <div class="sidebar-icon" title="Configuración"><i class="bi bi-gear"></i></div>
+            <div class="sidebar-icon" title="Reportes"><i class="bi bi-file-earmark"></i></div>
+            <div class="sidebar-icon" title="Usuarios"><i class="bi bi-people"></i></div>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="kpi-container">
+            <div class="kpi-card dark">
+                <div class="kpi-icon"><i class="bi bi-bag-check"></i></div>
+                <div class="kpi-label">Ventas Totales</div>
+                <div class="kpi-value">21 324</div>
+                <small style="color: #aaa;">+5 esta semana</small>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-icon" style="color: #666;"><i class="bi bi-currency-dollar"></i></div>
+                <div class="kpi-label">Ingresos Totales</div>
+                <div class="kpi-value">$221,324.50</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-icon" style="color: #666;"><i class="bi bi-eye"></i></div>
+                <div class="kpi-label">Visitas</div>
+                <div class="kpi-value">16 703</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-icon" style="color: #666;"><i class="bi bi-list-check"></i></div>
+                <div class="kpi-label">Categorías más frecuentadas</div>
+                <div style="margin-top: 10px; display: flex; gap: 8px; flex-wrap: wrap;">
+                    <span class="badge-sm" style="background-color: #f0f1f5; color: #666;">Electronics</span>
+                    <span class="badge-sm" style="background-color: #f0f1f5; color: #666;">Furniture</span>
+                    <span class="badge-sm" style="background-color: #f0f1f5; color: #666;">Networking</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <div>
+                <div class="content-card">
+                    <div class="card-title">
+                        Gráfico de Ventas
+                        <i class="bi bi-three-dots-vertical card-icon"></i>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="salesChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="content-card" style="margin-top: 20px;">
+                    <div class="card-title">
+                        Clientes Recientes
+                        <i class="bi bi-three-dots-vertical card-icon"></i>
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Nombre</th>
+                                <th>Fecha de Orden</th>
+                                <th>Teléfono</th>
+                                <th>Ubicación</th>
+                                <th>Registrado</th>
+                                <th style="text-align: center;">Acción</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Juan Pérez</strong></td>
+                                <td>19 May, 2024 10:35 AM</td>
+                                <td>291-621-3362</td>
+                                <td>Santiago</td>
+                                <td>Sí</td>
+                                <td style="text-align: center;"><a href="#" style="color: #0066cc; font-size: 12px; text-decoration: none;">Detalles</a></td>
+                            </tr>
+                            <tr>
+                                <td><strong>María González</strong></td>
+                                <td>18 May, 2024 3:32 PM</td>
+                                <td>171-328-3262</td>
+                                <td>Valparaíso</td>
+                                <td>No</td>
+                                <td style="text-align: center;"><a href="#" style="color: #0066cc; font-size: 12px; text-decoration: none;">Detalles</a></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Carlos López</strong></td>
+                                <td>17 May, 2024 2:35 PM</td>
+                                <td>974-563-3130</td>
+                                <td>Concepción</td>
+                                <td>Sí</td>
+                                <td style="text-align: center;"><a href="#" style="color: #0066cc; font-size: 12px; text-decoration: none;">Detalles</a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="pagination">
+                        <span>1</span>
+                        <span class="current">2</span>
+                        <span>3</span>
+                        <span>4</span>
+                        <span>5</span>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <div class="preview-section">
+                    <div class="preview-title">Vista Previa</div>
+
+                    <div class="preview-item">
+                        Producto
+                        <small>Ver, Añadir o Eliminar producto</small>
+                    </div>
+
+                    <div class="preview-item">
+                        Categoría
+                        <small>Ver, Añadir o Eliminar categoría</small>
+                    </div>
+
+                    <div style="background-color: #f8f9fa; padding: 15px; border-radius: 5px; margin-bottom: 15px;">
+                        <div style="color: #666; font-size: 12px; margin-bottom: 8px;">Stock de Inventario</div>
+                        <div style="font-size: 32px; font-weight: bold; color: #333;">76</div>
+                        <small style="color: #999;">Productos en stock</small>
+                    </div>
+
+                    <div class="preview-image">
+                        <i class="bi bi-image" style="font-size: 40px; color: #ddd;"></i>
+                    </div>
+
+                    <div style="background-color: #f8f9fa; padding: 15px; border-radius: 5px;">
+                        <div style="color: #666; font-weight: 600; margin-bottom: 10px;">Producto Ejemplo</div>
+                        <small style="color: #999; display: block; margin-bottom: 10px;">Descripción del producto</small>
+                        <div style="color: #333; font-size: 18px; font-weight: bold;">$99.990</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const ctx = document.getElementById('salesChart').getContext('2d');
+        const chart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May'],
+                datasets: [
+                    {
+                        label: 'Networking',
+                        data: [30, 25, 35, 40, 45],
+                        borderColor: '#333',
+                        borderWidth: 2,
+                        fill: false,
+                        tension: 0.4,
+                        pointRadius: 4,
+                        pointBackgroundColor: '#333'
+                    },
+                    {
+                        label: 'Accesorios',
+                        data: [20, 22, 25, 20, 30],
+                        borderColor: '#666',
+                        borderWidth: 2,
+                        fill: false,
+                        tension: 0.4,
+                        pointRadius: 4,
+                        pointBackgroundColor: '#666'
+                    },
+                    {
+                        label: 'Servidores',
+                        data: [25, 28, 30, 32, 35],
+                        borderColor: '#999',
+                        borderWidth: 2,
+                        fill: false,
+                        tension: 0.4,
+                        pointRadius: 4,
+                        pointBackgroundColor: '#999'
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'bottom',
+                        labels: {
+                            usePointStyle: true,
+                            padding: 15,
+                            font: { size: 11 }
+                        }
+                    }
+                },
+                scales: {
+                    y: { beginAtZero: true, max: 50 }
+                }
+            }
+        });
+
+        function toggleSidebar() {
+            console.log('Toggle sidebar');
+        }
+    </script>
+</body>
+</html>

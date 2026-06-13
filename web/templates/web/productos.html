@@ -1,0 +1,132 @@
+{% extends "web/base.html" %}
+
+{% load static %}
+
+{% block title %}Productos - Nexo Digital{% endblock %}
+
+{% block content %}
+    <main id="productos" class="container my-5 py-4">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h3 class="fw-bold m-0 display-6" style="letter-spacing: -1px;">Catálogo</h3>
+            <select class="form-select w-auto">
+                <option>Ordenar por destacados</option>
+                <option>Precio: menor a mayor</option>
+            </select>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-sm-6 col-md-4 col-lg-3">
+                <div class="card h-100 product-card shadow-sm border-0 rounded-3">
+                    <div class="product-img-container">
+                        <img src="https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=500" alt="Router">
+                    </div>
+                    <div class="card-body d-flex flex-column text-center">
+                        <small class="text-muted mb-1">Networking</small>
+                        <h6 class="fw-bold text-dark">Router Gigabit Empresarial</h6>
+                        <h5 class="text-primary fw-bold mt-auto pt-3">$129.990</h5>
+                        <button class="btn btn-outline-dark mt-2 w-100" onclick="addToCart('prod1', 'Router Gigabit', 129990, 'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=500')">Añadir al Carrito</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-6 col-md-4 col-lg-3">
+                <div class="card h-100 product-card shadow-sm border-0 rounded-3">
+                    <span class="position-absolute top-0 start-0 bg-danger text-white px-2 py-1 rounded-end-2 mt-3 text-uppercase" style="font-size: 0.7rem; font-weight: bold; z-index: 2;">Oferta</span>
+                    <div class="product-img-container">
+                        <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=500" alt="Switch">
+                    </div>
+                    <div class="card-body d-flex flex-column text-center">
+                        <small class="text-muted mb-1">Switches</small>
+                        <h6 class="fw-bold text-dark">Switch PoE 24 Puertos</h6>
+                        <h5 class="text-primary fw-bold mt-auto pt-3">$624.900 <small class="text-muted text-decoration-line-through fs-6">$899.900</small></h5>
+                        <button class="btn btn-outline-dark mt-2 w-100" onclick="addToCart('prod2', 'Switch PoE 24 Pt', 624900, 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=500')">Añadir al Carrito</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-6 col-md-4 col-lg-3">
+                <div class="card h-100 product-card shadow-sm border-0 rounded-3">
+                    <div class="product-img-container">
+                        <img src="https://images.unsplash.com/photo-1628126235206-5260b9ea6441?w=500" alt="Antena">
+                    </div>
+                    <div class="card-body d-flex flex-column text-center">
+                        <small class="text-muted mb-1">Inalámbrico</small>
+                        <h6 class="fw-bold text-dark">Antena Parabólica 5GHz PtP</h6>
+                        <h5 class="text-primary fw-bold mt-auto pt-3">$385.500</h5>
+                        <button class="btn btn-outline-dark mt-2 w-100" onclick="addToCart('prod3', 'Antena 5GHz PtP', 385500, 'https://images.unsplash.com/photo-1628126235206-5260b9ea6441?w=500')">Añadir al Carrito</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-6 col-md-4 col-lg-3">
+                <div class="card h-100 product-card shadow-sm border-0 rounded-3">
+                    <div class="product-img-container">
+                        <img src="https://images.unsplash.com/photo-1563207153-f403bf289096?w=500" alt="Cable">
+                    </div>
+                    <div class="card-body d-flex flex-column text-center">
+                        <small class="text-muted mb-1">Infraestructura</small>
+                        <h6 class="fw-bold text-dark">Bobina Cable UTP Cat 6 (305m)</h6>
+                        <h5 class="text-primary fw-bold mt-auto pt-3">$95.000</h5>
+                        <button class="btn btn-outline-dark mt-2 w-100" onclick="addToCart('prod4', 'Bobina UTP Cat 6', 95000, 'https://images.unsplash.com/photo-1563207153-f403bf289096?w=500')">Añadir al Carrito</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-6 col-md-4 col-lg-3">
+                <div class="card h-100 product-card shadow-sm border-0 rounded-3">
+                    <div class="product-img-container">
+                        <img src="https://www.winpy.cl/files/w13369_440-1.jpg" alt="Servidor">
+                    </div>
+                    <div class="card-body d-flex flex-column text-center">
+                        <small class="text-muted mb-1">Data Center</small>
+                        <h6 class="fw-bold text-dark">Servidor Rackeable 1U</h6>
+                        <h5 class="text-primary fw-bold mt-auto pt-3">$1.250.000</h5>
+                        <button class="btn btn-outline-dark mt-2 w-100" onclick="addToCart('prod5', 'Servidor Rack 1U', 1250000, 'https://images.unsplash.com/photo-1542751110-97427bbecf20?w=500')">Añadir al Carrito</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-6 col-md-4 col-lg-3">
+                <div class="card h-100 product-card shadow-sm border-0 rounded-3">
+                    <div class="product-img-container">
+                        <img src="https://images.unsplash.com/photo-1584432743501-8ee4424368eb?w=500" alt="Herramienta">
+                    </div>
+                    <div class="card-body d-flex flex-column text-center">
+                        <small class="text-muted mb-1">Herramientas</small>
+                        <h6 class="fw-bold text-dark">Kit Certificador de Redes</h6>
+                        <h5 class="text-primary fw-bold mt-auto pt-3">$340.000</h5>
+                        <button class="btn btn-outline-dark mt-2 w-100" onclick="addToCart('prod6', 'Kit Certificador', 340000, 'https://images.unsplash.com/photo-1584432743501-8ee4424368eb?w=500')">Añadir al Carrito</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-6 col-md-4 col-lg-3">
+                <div class="card h-100 product-card shadow-sm border-0 rounded-3">
+                    <div class="product-img-container">
+                        <img src="https://innovarcom.cl/wp-content/uploads/2024/07/MOTOROLA-DGM8500e.png" alt="Radio">
+                    </div>
+                    <div class="card-body d-flex flex-column text-center">
+                        <small class="text-muted mb-1">Radiocomunicación</small>
+                        <h6 class="fw-bold text-dark">Radio Base VHF Móvil</h6>
+                        <h5 class="text-primary fw-bold mt-auto pt-3">$180.000</h5>
+                        <button class="btn btn-outline-dark mt-2 w-100" onclick="addToCart('prod7', 'Radio Base VHF', 180000, 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=500')">Añadir al Carrito</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-6 col-md-4 col-lg-3">
+                <div class="card h-100 product-card shadow-sm border-0 rounded-3">
+                    <div class="product-img-container">
+                        <img src="https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=500" alt="Access Point">
+                    </div>
+                    <div class="card-body d-flex flex-column text-center">
+                        <small class="text-muted mb-1">Inalámbrico</small>
+                        <h6 class="fw-bold text-dark">Access Point WiFi 6 Indoor</h6>
+                        <h5 class="text-primary fw-bold mt-auto pt-3">$115.000</h5>
+                        <button class="btn btn-outline-dark mt-2 w-100" onclick="addToCart('prod8', 'Access Point WiFi 6', 115000, 'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=500')">Añadir al Carrito</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+{% endblock %}

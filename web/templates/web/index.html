@@ -1,0 +1,152 @@
+{% extends "web/base.html" %}
+{% load static %}
+
+{% block title %}Inicio - Nexo Digital{% endblock %}
+
+{% block content %}
+    <section class="hero-minimal py-5 mb-5">
+        <div class="container text-center text-lg-start">
+            <h1 class="display-10 fw-bold mb-4 text-dark" style="letter-spacing: -2px;">Construimos la infraestructura que sostiene tus grandes ideas.</h1>
+            <div class="d-flex flex-wrap justify-content-center justify-content-lg-start gap-3 mb-5">
+                <a href="{% url 'web:productos' %}" class="btn btn-custom-blue px-4 py-2">PRODUCTOS</a>
+            </div>
+            <div class="d-flex justify-content-center justify-content-lg-start gap-2">
+                <div class="bg-primary rounded-circle" style="width: 10px; height: 10px;"></div>
+                <div class="bg-primary rounded-circle" style="width: 10px; height: 10px; opacity: 0.5;"></div>
+                <div class="bg-primary rounded-circle" style="width: 10px; height: 10px; opacity: 0.5;"></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="container mb-5 pb-5 position-relative">
+        <div class="d-flex justify-content-between align-items-end mb-4">
+            <h2 class="fw-bold m-0 text-dark" style="font-size: 1.8rem;">Destacados</h2>
+            <a href="{% url 'web:productos' %}" class="text-dark fw-bold text-decoration-underline text-uppercase" style="font-size: 0.85rem; letter-spacing: 0.5px;">Explorar más productos</a>
+        </div>
+
+        <div class="position-relative">
+            <div class="scrolling-wrapper d-flex gap-4 pb-3" id="destacados-scroll" style="overflow-x: auto; scroll-behavior: smooth;">
+                <div class="product-card-simple" style="min-width: 250px;">
+                    <div class="img-bg position-relative rounded overflow-hidden mb-3">
+                        <span class="badge bg-danger position-absolute top-0 start-0 m-2 z-1">NEW</span>
+                        <img src="https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=500" alt="Router" class="img-fluid object-fit-cover" style="height: 200px; width: 100%;">
+                    </div>
+                    <div class="text-start">
+                        <h6 class="fw-bold mb-1 text-dark fs-5">Router Gigabit Empresarial</h6>
+                        <p class="text-muted small mb-2">Networking, Dual Band, Black</p>
+                        <h5 class="fw-bold text-dark mb-3">$129.990</h5>
+                        <button class="btn btn-sm btn-outline-dark w-100 py-2" onclick="addToCart('prod1', 'Router Gigabit', 129990, 'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=500')">Añadir al Carrito</button>
+                    </div>
+                </div>
+                
+                <div class="product-card-simple" style="min-width: 250px;">
+                    <div class="img-bg position-relative rounded overflow-hidden mb-3">
+                        <img src="https://images.unsplash.com/photo-1628126235206-5260b9ea6441?w=500" alt="Antena" class="img-fluid object-fit-cover" style="height: 200px; width: 100%;">
+                    </div>
+                    <div class="text-start">
+                        <h6 class="fw-bold mb-1 text-dark fs-5">Antena Parabólica PtP</h6>
+                        <p class="text-muted small mb-2">Inalámbrico, 5GHz, Blanco</p>
+                        <h5 class="fw-bold text-dark mb-3">$385.500</h5>
+                        <button class="btn btn-sm btn-outline-dark w-100 py-2" onclick="addToCart('prod3', 'Antena 5GHz PtP', 385500, 'https://images.unsplash.com/photo-1628126235206-5260b9ea6441?w=500')">Añadir al Carrito</button>
+                    </div>
+                </div>
+
+                <div class="product-card-simple" style="min-width: 250px;">
+                    <div class="img-bg position-relative rounded overflow-hidden mb-3">
+                        <span class="badge bg-danger position-absolute top-0 start-0 m-2 z-1">NEW</span>
+                        <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=500" alt="Switch" class="img-fluid object-fit-cover" style="height: 200px; width: 100%;">
+                    </div>
+                    <div class="text-start">
+                        <h6 class="fw-bold mb-1 text-dark fs-5">Switch PoE 24 Puertos</h6>
+                        <p class="text-muted small mb-2">Switches, Capa 2, Black</p>
+                        <h5 class="fw-bold text-dark mb-3">$624.900</h5>
+                        <button class="btn btn-sm btn-outline-dark w-100 py-2" onclick="addToCart('prod2', 'Switch PoE', 624900, 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=500')">Añadir al Carrito</button>
+                    </div>
+                </div>
+            </div>
+            <button class="btn btn-light shadow-sm position-absolute top-50 end-0 translate-middle-y z-2 rounded-circle" onclick="document.getElementById('destacados-scroll').scrollBy({left: 300, behavior: 'smooth'})" style="width: 45px; height: 45px;">
+                <i class="bi bi-chevron-right fs-5"></i>
+            </button>
+        </div>
+    </section>
+
+    <section class="bg-light py-5 my-5">
+        <div class="container position-relative">
+            <div class="d-flex justify-content-between align-items-end mb-4">
+                <h2 class="fw-bold m-0 text-dark" style="font-size: 1.8rem;">Recién Llegados</h2>
+                <a href="{% url 'web:productos' %}" class="text-dark fw-bold text-decoration-underline text-uppercase" style="font-size: 0.85rem; letter-spacing: 0.5px;">Explorar más productos</a>
+            </div>
+
+            <div class="position-relative">
+                <div class="scrolling-wrapper d-flex gap-4 pb-3" id="recien-llegados-scroll" style="overflow-x: auto; scroll-behavior: smooth;">
+                    
+                    <div class="product-card-simple bg-white p-2 rounded shadow-sm" style="min-width: 250px;">
+                        <div class="img-bg position-relative rounded overflow-hidden mb-3">
+                            <img src="https://images.unsplash.com/photo-1563207153-f403bf289096?w=500" alt="Cable" class="img-fluid object-fit-cover" style="height: 200px; width: 100%;">
+                        </div>
+                        <div class="text-start px-2 pb-2">
+                            <h6 class="fw-bold mb-1 text-dark fs-5">Bobina UTP Cat 6</h6>
+                            <p class="text-muted small mb-2">Infraestructura, 305m, Gris</p>
+                            <h5 class="fw-bold text-dark mb-3">$95.000</h5>
+                            <button class="btn btn-sm btn-outline-dark w-100 py-2" onclick="addToCart('prod4', 'Bobina UTP', 95000, 'https://images.unsplash.com/photo-1563207153-f403bf289096?w=500')">Añadir al Carrito</button>
+                        </div>
+                    </div>
+
+                    <div class="product-card-simple bg-white p-2 rounded shadow-sm" style="min-width: 250px;">
+                        <div class="img-bg position-relative rounded overflow-hidden mb-3">
+                            <img src="https://images.unsplash.com/photo-1542751110-97427bbecf20?w=500" alt="Servidor" class="img-fluid object-fit-cover" style="height: 200px; width: 100%;">
+                        </div>
+                        <div class="text-start px-2 pb-2">
+                            <h6 class="fw-bold mb-1 text-dark fs-5">Servidor Rackeable 1U</h6>
+                            <p class="text-muted small mb-2">Data Center, Dual CPU, Plata</p>
+                            <h5 class="fw-bold text-dark mb-3">$1.250.000</h5>
+                            <button class="btn btn-sm btn-outline-dark w-100 py-2" onclick="addToCart('prod5', 'Servidor Rack 1U', 1250000, 'https://images.unsplash.com/photo-1542751110-97427bbecf20?w=500')">Añadir al Carrito</button>
+                        </div>
+                    </div>
+                </div>
+                <button class="btn btn-white shadow position-absolute top-50 end-0 translate-middle-y z-2 rounded-circle" onclick="document.getElementById('recien-llegados-scroll').scrollBy({left: 300, behavior: 'smooth'})" style="width: 45px; height: 45px;">
+                    <i class="bi bi-chevron-right fs-5"></i>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <section class="container mb-5 pb-5" style="margin-top: 5rem;">
+        <div class="row g-5 align-items-stretch">
+            
+            <div class="col-lg-5 d-flex flex-column justify-content-between">
+                <div class="mb-4">
+                    <span class="badge bg-primary mb-2 px-3 py-2 text-uppercase fw-bold" style="font-size: 0.75rem; letter-spacing: 1px;">Contacto Directo</span>
+                    <h2 class="fw-bold text-dark mb-3" style="font-size: 2rem;">Nuestra Ubicación</h2>
+                    <p class="text-muted">
+                        Visita nuestras oficinas centrales o agenda una reunión técnica. Estamos equipados para coordinar la logística de tus proyectos de conectividad directamente desde nuestra matriz.
+                    </p>
+                    <ul class="list-unstyled text-muted small mt-3">
+                        <li class="mb-2"><i class="bi bi-geo-alt-fill text-primary me-2"></i> Av. Alonso de Cordova 5320, Las Condes, Santiago</li>
+                        <li class="mb-2"><i class="bi bi-telephone-fill text-primary me-2"></i> +56 2 2345 6789</li>
+                        <li class="mb-2"><i class="bi bi-envelope-fill text-primary me-2"></i> soporte@nexodigital.cl</li>
+                    </ul>
+                </div>
+                
+                <div class="ratio ratio-4x3 rounded overflow-hidden shadow-sm flex-grow-1" style="min-height: 320px; border: 1px solid #e3e6f0;">
+                    <iframe 
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3195.400711173208!2d-73.08631652373856!3d-36.78494177594418!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9669b5d29feca1a7%3A0x10c916398bdbf4bd!2sBiblioteca%20USM%20Sede%20Concepci%C3%B3n!5e0!3m2!1ses!2scl!4v1780810111591!5m2!1ses!2scl" 
+                        style="border:0;" 
+                        allowfullscreen="" 
+                        loading="lazy" 
+                        referrerpolicy="no-referrer-when-downgrade">
+                    </iframe>
+                </div>
+            </div>
+
+            <div class="col-lg-7">
+                <div class="img-bg rounded overflow-hidden shadow-sm" style="height: 100%; min-height: 400px;">
+                    <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=800" alt="Oficina Nexo Digital" class="img-fluid object-fit-cover h-100 w-100">
+                </div>
+
+        </div>
+    </section>
+
+    <div class="w-100 my-5 py-2"></div>
+
+{% endblock %}
