@@ -1,0 +1,11 @@
+py -m venv .venv
+.\.venv\Scripts\Activate.ps1
+python -m pip install --upgrade pip
+pip install -r requirements.txt
+python manage.py migrate
+python manage.py runserver
+
+PANEL ADMIN = http://127.0.0.1:8000/panel-admin/
+
+Admin@gmail.com
+1029384756
