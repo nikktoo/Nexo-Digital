@@ -4,65 +4,67 @@
 
 {% block content %}
 <main class="container py-5">
-    <section id="contacto" class="bg-light py-5 mt-5 border-top rounded-3 shadow-sm">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-lg-8 text-center mb-5">
-                    <h2 class="fw-bold">Envíanos un mensaje</h2>
-                    <p class="text">¿Necesitas una cotización por volumen para tu proyecto de red? Escríbenos.</p>
+    <section class="mb-5">
+        <div class="bg-light rounded-4 border shadow-sm p-5">
+            <div class="row g-4 align-items-center">
+                <div class="col-lg-7">
+                    <span class="badge bg-primary text-uppercase fw-bold mb-3">Contacto</span>
+                    <h1 class="fw-bold display-6 mb-3">Estamos listos para ayudarte con tu proyecto de telecomunicaciones.</h1>
+                    <p class="text-muted mb-4">Cuéntanos qué necesitas y uno de nuestros ejecutivos de ventas te contactará con una propuesta técnica y comercial.</p>
                 </div>
-            </div>
-            <div class="row justify-content-center">
-                <div class="col-lg-8">
-                    <div class="bg-white p-4 p-md-5 rounded-3 shadow-sm border">
-                        <form id="contactForm">
-                            <div class="row g-3">
-                                <div class="col-md-6">
-                                    <label class="form-label fw-semibold">Nombre Completo *</label>
-                                    <input type="text" class="form-control focus-ring focus-ring-light bg-light border-0 py-2" placeholder="Ej. Juan Pérez" required>
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="form-label fw-semibold">Empresa (Opcional)</label>
-                                    <input type="text" class="form-control focus-ring focus-ring-light bg-light border-0 py-2" placeholder="Nombre de tu compañía">
-                                </div>
-                                <div class="col-12">
-                                    <label class="form-label fw-semibold">Correo Electrónico *</label>
-                                    <input type="email" class="form-control focus-ring focus-ring-light bg-light border-0 py-2" placeholder="tu@correo.com" required>
-                                </div>
-                                <div class="col-12">
-                                    <label class="form-label fw-semibold">Mensaje o Solicitud *</label>
-                                    <textarea class="form-control focus-ring focus-ring-light bg-light border-0 py-2" rows="4" placeholder="Describe los equipos que necesitas..." required></textarea>
-                                </div>
-                                <div class="col-12 mt-4">
-                                    <button type="button" class="btn btn-primary btn-lg w-100 fw-bold">Enviar Mensaje</button>
-                                </div>
-                            </div>
-                        </form>
+                <div class="col-lg-5">
+                    <div class="ratio ratio-4x3 rounded-4 overflow-hidden shadow-sm">
+                        <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=900&q=80" alt="Contacto comercial" class="object-fit-cover" style="width:100%; height:100%;">
                     </div>
                 </div>
             </div>
-            <div class="row g-4 mt-5">
-                <div class="col-lg-8">
-                    <div class="card border-0 shadow-sm p-4 mb-4">
-                        <h3 class="fw-bold text-dark mb-3 d-flex align-items-center">
-                            <i class="bi bi-envelope text-primary me-2"></i>
-                            Correo Electrónico
-                        </h3>
-                        <p class="mb-2">Puedes escribirnos a nuestro correo de atención al cliente para consultas generales, cotizaciones o soporte técnico.</p>
-                        <div class="alert alert-info mt-3 mb-0">
-                            <strong>Correo de contacto:</strong> <a href="mailto:contacto@nexodigital.com">contacto@nexodigital.com</a>
+        </div>
+    </section>
+
+    <section class="row g-4 mb-5">
+        <div class="col-lg-8">
+            <div class="card border-0 shadow-sm p-4 h-100">
+                <h3 class="fw-bold mb-3">Formulario de contacto</h3>
+                <form id="contactForm">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Nombre Completo *</label>
+                            <input type="text" class="form-control bg-light border-0 py-2" placeholder="Ej. Juan Pérez" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Empresa</label>
+                            <input type="text" class="form-control bg-light border-0 py-2" placeholder="Nombre de tu compañía">
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label fw-semibold">Correo Electrónico *</label>
+                            <input type="email" class="form-control bg-light border-0 py-2" placeholder="tu@correo.com" required>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label fw-semibold">Mensaje *</label>
+                            <textarea class="form-control bg-light border-0 py-2" rows="5" placeholder="Describe tu proyecto o consulta" required></textarea>
+                        </div>
+                        <div class="col-12">
+                            <button type="button" class="btn btn-primary btn-lg w-100 fw-bold">Enviar Mensaje</button>
                         </div>
                     </div>
+                </form>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="card border-0 shadow-sm p-4 h-100">
+                <h3 class="fw-bold mb-3">Información de contacto</h3>
+                <p class="text-muted mb-4">También puedes escribirnos o visitarnos según tu preferencia.</p>
+                <div class="mb-4">
+                    <p class="mb-1"><strong>Correo:</strong></p>
+                    <a href="mailto:contacto@nexodigital.com" class="text-decoration-none">contacto@nexodigital.com</a>
                 </div>
-                <div class="col-lg-4">
-                    <div class="card border-0 shadow-sm p-4 mb-4">
-                        <h3 class="fw-bold text-dark mb-3 d-flex align-items-center">
-                            <i class="bi bi-geo-alt text-primary me-2"></i>
-                            Ubicación
-                        </h3>
-                        <p class="mb-2">Visítanos en nuestras oficinas principales para coordinar tu pedido y conocer nuestras soluciones de infraestructura.</p>
-                        <p class="mb-0">Avenida Tusca, Capital</p>
-                    </div>
+                <div class="mb-4">
+                    <p class="mb-1"><strong>Teléfono:</strong></p>
+                    <span>800 123 3211</span>
+                </div>
+                <div>
+                    <p class="mb-1"><strong>Dirección:</strong></p>
+                    <span>Avenida Tusca 568, Capital</span>
                 </div>
             </div>
         </div>

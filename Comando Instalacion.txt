@@ -24,12 +24,13 @@ PANEL ADMIN = http://127.0.0.1:8000/panel-admin/
 
 Credenciales Test:
 
-Admin: 
-
+Usuario(Admin):
 Admin@gmail.com
 1029384756
 
-Usuario:
+Usuario(Cliente):
+cliente@nexodigital.com
+12345678
 
 
 

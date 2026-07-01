@@ -5,16 +5,57 @@ const MAX_UNITS_PER_PRODUCT = 10;
 
 const CartManager = {
     getCart() {
-        return JSON.parse(localStorage.getItem('cart')) || [];
+        const rawCart = localStorage.getItem('cart');
+        if (!rawCart) return [];
+
+        try {
+            const parsed = JSON.parse(rawCart);
+            if (!Array.isArray(parsed)) return [];
+            return this.normalizeCart(parsed);
+        } catch (e) {
+            localStorage.removeItem('cart');
+            return [];
+        }
     },
 
     saveCart(cartItems) {
         localStorage.setItem('cart', JSON.stringify(cartItems));
     },
 
+    normalizeCart(cart) {
+        let changed = false;
+        const normalized = cart.filter(item => {
+            const maxAllowed = Math.min(MAX_UNITS_PER_PRODUCT, Number(item.stock) || MAX_UNITS_PER_PRODUCT);
+            const quantity = Number(item.quantity) || 0;
+            if (maxAllowed <= 0) {
+                changed = true;
+                return false;
+            }
+            const normalizedQuantity = Math.min(Math.max(quantity, 1), maxAllowed);
+            if (normalizedQuantity !== quantity) {
+                item.quantity = normalizedQuantity;
+                changed = true;
+            }
+            item.stock = Number(item.stock) || 0;
+            item.price = Number(item.price) || 0;
+            return true;
+        });
+        return changed ? normalized : cart;
+    },
+
+    // Agrega un producto al carrito y evita superar el stock disponible.
     addItem(id, name, price, image, stock = MAX_UNITS_PER_PRODUCT) {
+        const role = String(window.userRole || '').toLowerCase();
+        const isAdmin = Boolean(window.isAdminUser || role === 'admin');
+
+        if (isAdmin) {
+            alert('Los administradores no pueden realizar compras. Por favor inicia sesión con una cuenta de cliente para agregar productos al carrito.');
+            console.warn('Intento de admin de agregar producto al carrito:', { id, name, price, role });
+            return;
+        }
+
         const cart = this.getCart();
-        const existingItem = cart.find(item => item.id === id);
+        const existingItem = cart.find(item => String(item.id) === String(id));
         const availableStock = Number(stock) || 0;
         const maxAllowed = Math.min(MAX_UNITS_PER_PRODUCT, availableStock);
 
@@ -25,32 +66,37 @@ const CartManager = {
 
         if (existingItem) {
             existingItem.stock = availableStock;
+            existingItem.quantity = Number(existingItem.quantity) || 0;
             if (existingItem.quantity >= maxAllowed) {
+                existingItem.quantity = maxAllowed;
+                this.saveCart(cart);
+                this.refresh();
                 this.showLimitMessage(name, maxAllowed);
-                this.showCart();
                 return;
             }
-            existingItem.quantity += 1;
+            existingItem.quantity = Math.min(existingItem.quantity + 1, maxAllowed);
         } else {
-            cart.push({ id, name, price, image, quantity: 1, stock: availableStock });
+            cart.push({ id, name, price: Number(price) || 0, image, quantity: 1, stock: availableStock });
         }
 
         this.saveCart(cart);
-        this.updateBadge();
-        this.renderCart();
+        this.refresh();
         this.showCart();
     },
 
     removeItem(id) {
         let cart = this.getCart();
-        cart = cart.filter(item => item.id !== id);
+        cart = cart.filter(item => String(item.id) !== String(id));
         this.saveCart(cart);
         this.refresh();
     },
 
     updateQuantity(id, newQuantity) {
+        newQuantity = Number(newQuantity);
+        if (Number.isNaN(newQuantity)) return;
+
         let cart = this.getCart();
-        const item = cart.find(item => item.id === id);
+        const item = cart.find(item => String(item.id) === String(id));
 
         if (!item) return;
 
@@ -62,9 +108,9 @@ const CartManager = {
         }
 
         if (newQuantity > 0) {
-            item.quantity = newQuantity;
+            item.quantity = Math.max(1, newQuantity);
         } else {
-            cart = cart.filter(item => item.id !== id);
+            cart = cart.filter(item => String(item.id) !== String(id));
         }
 
         this.saveCart(cart);
@@ -144,7 +190,7 @@ const CartManager = {
             container.innerHTML = `
                 <div class="text-center text-muted py-5">
                     <i class="bi bi-cart-x fs-1"></i>
-                    <p class="mt-3">Tu carrito está vacío</p>
+                    <p class="mt-3">Su carrito está vacío</p>
                 </div>
             `;
             totalElement.innerText = '0';
@@ -204,7 +250,12 @@ const CartManager = {
         this.refresh();
     },
 
-    confirmPurchase() {
+    getCSRFToken() {
+        const match = document.cookie.match(/(?:^|;\s*)csrftoken=([^;]+)/);
+        return match ? decodeURIComponent(match[1]) : '';
+    },
+
+    async confirmPurchase() {
         const cart = this.getCart();
 
         if (cart.length === 0) {
@@ -212,9 +263,85 @@ const CartManager = {
             return;
         }
 
-        alert('Compra completada con éxito');
-        this.clearCart();
-        window.location.href = '/inicio/';
+        // Deshabilita el botón mientras se procesa la compra para evitar envíos dobles.
+        const btn = document.querySelector('.summary-card button.btn-primary');
+        const originalText = btn ? btn.innerHTML : '';
+        if (btn) {
+            btn.disabled = true;
+            btn.innerHTML = 'Procesando...';
+        }
+
+        const nombre = `${document.getElementById('checkout-nombre')?.value || ''} ${document.getElementById('checkout-apellido')?.value || ''}`.trim();
+        const email = document.getElementById('checkout-email')?.value || '';
+        const metodoEntrega = document.querySelector('input[name="delivery"]:checked')?.value || 'delivery';
+
+        const payload = {
+            items: cart.map(item => ({ id: item.id, quantity: item.quantity })),
+            nombre,
+            email,
+            metodo_entrega: metodoEntrega,
+        };
+
+        try {
+            const response = await fetch('/procesar-compra/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': this.getCSRFToken(),
+                },
+                body: JSON.stringify(payload),
+            });
+
+            if (!response.ok) {
+                if (response.status === 403 || response.redirected) {
+                    alert('Debes iniciar sesión para completar el pago.');
+                    window.location.href = '/login/?next=/pago/';
+                    return;
+                }
+            }
+
+            const contentType = response.headers.get('Content-Type') || '';
+            if (!contentType.includes('application/json')) {
+                alert('Debes iniciar sesión para completar el pago.');
+                window.location.href = '/login/?next=/pago/';
+                return;
+            }
+
+            const data = await response.json();
+
+            if (response.ok && data.success) {
+                alert(`¡Compra completada con éxito! N° de pedido: ${data.pedido_id}`);
+                this.clearCart();
+                window.location.href = '/';
+                return;
+            }
+
+            if (data.stock_insuficiente) {
+                let mensaje = 'No hay stock suficiente para confirmar la compra:\n';
+                data.stock_insuficiente.forEach(p => {
+                    mensaje += `- ${p.nombre}: quedan ${p.disponible} unidad(es)\n`;
+                    const item = cart.find(i => String(i.id) === String(p.id));
+                    if (item) {
+                        item.stock = p.disponible;
+                        item.quantity = Math.min(item.quantity, p.disponible);
+                    }
+                });
+                const cartActualizado = cart.filter(item => item.quantity > 0);
+                this.saveCart(cartActualizado);
+                this.refresh();
+                alert(mensaje + '\nActualizamos tu carrito a las cantidades disponibles.');
+            } else {
+                alert(data.error || 'Ocurrió un error al procesar la compra.');
+            }
+        } catch (error) {
+            console.error('Error al procesar compra:', error);
+            alert('Ocurrió un error al procesar la compra. Intenta nuevamente.');
+        } finally {
+            if (btn) {
+                btn.disabled = false;
+                btn.innerHTML = originalText;
+            }
+        }
     },
 
     togglePaymentFields() {

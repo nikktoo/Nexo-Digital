@@ -5,53 +5,111 @@ const MAX_UNITS_PER_PRODUCT = 10;
 
 const CartManager = {
     getCart() {
-        return JSON.parse(localStorage.getItem('cart')) || [];
+        const rawCart = localStorage.getItem('cart');
+        if (!rawCart) return [];
+
+        try {
+            const parsed = JSON.parse(rawCart);
+            if (!Array.isArray(parsed)) return [];
+            return this.normalizeCart(parsed);
+        } catch (e) {
+            localStorage.removeItem('cart');
+            return [];
+        }
     },
 
     saveCart(cartItems) {
         localStorage.setItem('cart', JSON.stringify(cartItems));
     },
 
+    normalizeCart(cart) {
+        let changed = false;
+        const normalized = cart.filter(item => {
+            const maxAllowed = Math.min(MAX_UNITS_PER_PRODUCT, Number(item.stock) || MAX_UNITS_PER_PRODUCT);
+            const quantity = Number(item.quantity) || 0;
+            if (maxAllowed <= 0) {
+                changed = true;
+                return false;
+            }
+            const normalizedQuantity = Math.min(Math.max(quantity, 1), maxAllowed);
+            if (normalizedQuantity !== quantity) {
+                item.quantity = normalizedQuantity;
+                changed = true;
+            }
+            item.stock = Number(item.stock) || 0;
+            item.price = Number(item.price) || 0;
+            return true;
+        });
+        return changed ? normalized : cart;
+    },
+
     // Agrega un producto al carrito y evita superar el stock disponible.
     addItem(id, name, price, image, stock = MAX_UNITS_PER_PRODUCT) {
-        const cart = this.getCart();
-        const existingItem = cart.find(item => String(item.id) === String(id));
-        const availableStock = Number(stock) || 0;
-        const maxAllowed = Math.min(MAX_UNITS_PER_PRODUCT, availableStock);
+        try {
+            const role = String(window.userRole || '').toLowerCase();
+            const isAdmin = Boolean(window.isAdminUser || role === 'admin');
 
-        if (maxAllowed <= 0) {
-            alert(`El producto ${name} no tiene stock disponible.`);
-            return;
-        }
-
-        if (existingItem) {
-            // Actualiza el stock guardado y limita la cantidad máxima.
-            existingItem.stock = availableStock;
-            if (existingItem.quantity >= maxAllowed) {
-                this.showLimitMessage(name, maxAllowed);
-                this.refresh();
+            // Validar si es admin
+            if (isAdmin) {
+                alert('Los administradores no pueden realizar compras. Por favor inicia sesión con una cuenta de cliente para agregar productos al carrito.');
+                console.warn('Intento de admin de agregar producto al carrito:', { id, name, price, role });
                 return;
             }
-            existingItem.quantity = Math.min(existingItem.quantity + 1, maxAllowed);
-        } else {
-            cart.push({ id, name, price, image, quantity: 1, stock: availableStock });
-        }
 
-        this.saveCart(cart);
-        this.refresh();
-        this.showCart();
+            // Validar parámetros
+            if (!id || !name || price === undefined) {
+                console.error('addItem: Parámetros inválidos', { id, name, price, image, stock });
+                alert('Error al agregar producto: datos inválidos');
+                return;
+            }
+
+            const cart = this.getCart();
+            const existingItem = cart.find(item => String(item.id) === String(id));
+            const availableStock = Number(stock) || 0;
+            const maxAllowed = Math.min(MAX_UNITS_PER_PRODUCT, availableStock);
+
+            if (maxAllowed <= 0) {
+                alert(`El producto ${name} no tiene stock disponible.`);
+                return;
+            }
+
+            if (existingItem) {
+                existingItem.stock = availableStock;
+                existingItem.quantity = Number(existingItem.quantity) || 0;
+                if (existingItem.quantity >= maxAllowed) {
+                    existingItem.quantity = maxAllowed;
+                    this.saveCart(cart);
+                    this.refresh();
+                    this.showLimitMessage(name, maxAllowed);
+                    return;
+                }
+                existingItem.quantity = Math.min(existingItem.quantity + 1, maxAllowed);
+            } else {
+                cart.push({ id, name, price: Number(price) || 0, image, quantity: 1, stock: availableStock });
+            }
+
+            this.saveCart(cart);
+            this.refresh();
+            this.showCart();
+        } catch (error) {
+            console.error('Error en addItem:', error);
+            alert('Error al agregar producto al carrito. Por favor recarga la página');
+        }
     },
 
     removeItem(id) {
         let cart = this.getCart();
-        cart = cart.filter(item => item.id !== id);
+        cart = cart.filter(item => String(item.id) !== String(id));
         this.saveCart(cart);
         this.refresh();
     },
 
     updateQuantity(id, newQuantity) {
+        newQuantity = Number(newQuantity);
+        if (Number.isNaN(newQuantity)) return;
+
         let cart = this.getCart();
-        const item = cart.find(item => item.id === id);
+        const item = cart.find(item => String(item.id) === String(id));
 
         if (!item) return;
 
@@ -63,9 +121,9 @@ const CartManager = {
         }
 
         if (newQuantity > 0) {
-            item.quantity = newQuantity;
+            item.quantity = Math.max(1, newQuantity);
         } else {
-            cart = cart.filter(item => item.id !== id);
+            cart = cart.filter(item => String(item.id) !== String(id));
         }
 
         this.saveCart(cart);
@@ -97,6 +155,7 @@ const CartManager = {
                 </div>
             `;
             if (totalElement) totalElement.innerText = '0';
+            this.bindCartActions();
             return;
         }
 
@@ -110,15 +169,15 @@ const CartManager = {
                     <div class="flex-grow-1">
                         <h6 class="mb-0 small fw-bold">${item.name}</h6>
                         <div class="d-flex align-items-center mt-1">
-                            <button class="btn btn-sm btn-light border px-2 py-0" onclick="CartManager.updateQuantity('${item.id}', ${item.quantity - 1})">-</button>
+                            <button type="button" class="btn btn-sm btn-light border px-2 py-0" data-action="decrease" data-product-id="${item.id}">-</button>
                             <span class="mx-2 small">${item.quantity}</span>
-                            <button class="btn btn-sm btn-light border px-2 py-0" onclick="CartManager.updateQuantity('${item.id}', ${item.quantity + 1})" ${item.quantity >= Math.min(MAX_UNITS_PER_PRODUCT, Number(item.stock) || MAX_UNITS_PER_PRODUCT) ? 'disabled' : ''}>+</button>
+                            <button type="button" class="btn btn-sm btn-light border px-2 py-0" data-action="increase" data-product-id="${item.id}" ${item.quantity >= Math.min(MAX_UNITS_PER_PRODUCT, Number(item.stock) || MAX_UNITS_PER_PRODUCT) ? 'disabled' : ''}>+</button>
                         </div>
                         <small class="text-muted">Stock: ${item.stock ?? 'N/D'} | Máximo ${Math.min(MAX_UNITS_PER_PRODUCT, Number(item.stock) || MAX_UNITS_PER_PRODUCT)} unidades</small>
                     </div>
                     <div class="text-end">
                         <span class="fw-bold small d-block">$${subtotal.toLocaleString('es-CL')}</span>
-                        <button class="btn btn-sm text-danger p-0" onclick="CartManager.removeItem('${item.id}')">
+                        <button type="button" class="btn btn-sm text-danger p-0" data-action="remove" data-product-id="${item.id}">
                             <i class="bi bi-trash"></i>
                         </button>
                     </div>
@@ -129,6 +188,12 @@ const CartManager = {
         if (totalElement) {
             totalElement.innerText = total.toLocaleString('es-CL');
         }
+        this.bindCartActions();
+    },
+
+    bindCartActions() {
+        // Event delegation: delegamos eventos al contenedor en lugar de al botón
+        // Esto permite que los botones dinámicos funcionen sin re-vincular
     },
 
     renderCheckout() {
@@ -185,6 +250,7 @@ const CartManager = {
     refresh() {
         this.updateBadge();
         this.renderCart();
+        this.bindCartActions();
         this.renderCheckout();
     },
 
@@ -327,4 +393,32 @@ document.addEventListener('DOMContentLoaded', () => {
     CartManager.renderCheckout();
     CartManager.togglePaymentFields();
     CartManager.toggleDeliveryFields();
+
+    // Setup event delegation for cart actions
+    const container = document.getElementById('cart-items-container');
+    if (container) {
+        container.addEventListener('click', handleCartAction);
+    }
 });
+
+// Manejador de eventos para el carrito
+function handleCartAction(event) {
+    const button = event.target.closest('button[data-action]');
+    if (!button) return;
+    
+    const action = button.dataset.action;
+    const id = button.dataset.productId;
+    
+    if (!id || !action) return;
+    
+    const currentItem = CartManager.getCart().find(item => String(item.id) === String(id));
+    const quantity = currentItem ? Number(currentItem.quantity) : 0;
+    
+    if (action === 'remove') {
+        CartManager.removeItem(id);
+    } else if (action === 'decrease') {
+        CartManager.updateQuantity(id, quantity - 1);
+    } else if (action === 'increase') {
+        CartManager.updateQuantity(id, quantity + 1);
+    }
+}

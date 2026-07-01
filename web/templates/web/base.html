@@ -153,9 +153,34 @@
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Pasar estado de autenticación y rol a JavaScript
+        window.isAdminUser = {{ user.is_staff|lower }} || {{ user.is_superuser|lower }};
+        window.isAuthenticatedUser = {{ user.is_authenticated|lower }};
+        window.userRole = "{{ user.profile.role|default:'client' }}";
+    </script>
     <script src="{% static 'js/cart.js' %}"></script>
     <script src="{% static 'js/contact.js' %}"></script>
     <script src="{% static 'js/search.js' %}"></script>
+    <script>
+        // Sincronizar carrito con estado de autenticación y rol de usuario
+        document.addEventListener('DOMContentLoaded', () => {
+            const isAuthenticated = window.isAuthenticatedUser;
+            const role = String(window.userRole || '').toLowerCase();
+            const isAdmin = Boolean(window.isAdminUser || role === 'admin');
+            
+            // Limpiar carrito si:
+            // 1. No está autenticado
+            // 2. Es admin (los admins no pueden comprar)
+            if (!isAuthenticated || isAdmin) {
+                localStorage.removeItem('cart');
+                // Forzar refresh del carrito
+                if (typeof CartManager !== 'undefined' && CartManager.clearCart) {
+                    CartManager.clearCart();
+                }
+            }
+        });
+    </script>
     {% block extra_js %}{% endblock %}
 </body>
 </html>

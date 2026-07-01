@@ -138,11 +138,22 @@ def pago(request):
     if not request.user.is_authenticated:
         messages.warning(request, 'Debes iniciar sesión con tu correo y contraseña para finalizar el pago.')
         return redirect(f"{reverse('web:auth')}?next={request.path}")
+
+    if es_admin_web(request.user):
+        messages.warning(request, 'Los administradores no pueden realizar compras. Usa un usuario cliente para pagar.')
+        return redirect('web:index')
+
     return render(request, 'web/pago.html')
 
 @login_required(login_url='web:auth')
 @require_POST
 def procesar_compra(request):
+    if es_admin_web(request.user):
+        return JsonResponse({
+            'success': False,
+            'error': 'Los administradores no pueden comprar en esta tienda.',
+        }, status=403)
+
     try:
         data = json.loads(request.body)
     except (json.JSONDecodeError, TypeError):
@@ -246,6 +257,13 @@ def es_admin_web(user):
         return True
     try:
         return user.profile.role == 'admin'
+    except UserProfile.DoesNotExist:
+        return False
+
+
+def es_cliente_web(user):
+    try:
+        return user.profile.role == 'client'
     except UserProfile.DoesNotExist:
         return False
 
