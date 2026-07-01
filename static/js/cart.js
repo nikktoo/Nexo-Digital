@@ -12,9 +12,10 @@ const CartManager = {
         localStorage.setItem('cart', JSON.stringify(cartItems));
     },
 
+    // Agrega un producto al carrito y evita superar el stock disponible.
     addItem(id, name, price, image, stock = MAX_UNITS_PER_PRODUCT) {
         const cart = this.getCart();
-        const existingItem = cart.find(item => item.id === id);
+        const existingItem = cart.find(item => String(item.id) === String(id));
         const availableStock = Number(stock) || 0;
         const maxAllowed = Math.min(MAX_UNITS_PER_PRODUCT, availableStock);
 
@@ -24,20 +25,20 @@ const CartManager = {
         }
 
         if (existingItem) {
+            // Actualiza el stock guardado y limita la cantidad máxima.
             existingItem.stock = availableStock;
             if (existingItem.quantity >= maxAllowed) {
                 this.showLimitMessage(name, maxAllowed);
-                this.showCart();
+                this.refresh();
                 return;
             }
-            existingItem.quantity += 1;
+            existingItem.quantity = Math.min(existingItem.quantity + 1, maxAllowed);
         } else {
             cart.push({ id, name, price, image, quantity: 1, stock: availableStock });
         }
 
         this.saveCart(cart);
-        this.updateBadge();
-        this.renderCart();
+        this.refresh();
         this.showCart();
     },
 
@@ -217,6 +218,7 @@ const CartManager = {
             return;
         }
 
+        // Deshabilita el botón mientras se procesa la compra para evitar envíos dobles.
         const btn = document.querySelector('.summary-card button.btn-primary');
         const originalText = btn ? btn.innerHTML : '';
         if (btn) {

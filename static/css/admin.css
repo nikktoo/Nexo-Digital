@@ -42,6 +42,12 @@ body {
     gap: 10px;
 }
 
+.admin-brand-logo {
+    width: 42px;
+    height: 42px;
+    object-fit: cover;
+}
+
 .user-info .avatar {
     width: 35px;
     height: 35px;

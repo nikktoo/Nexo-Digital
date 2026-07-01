@@ -130,6 +130,8 @@ def procesar_compra(request):
     if not items:
         return JsonResponse({'success': False, 'error': 'El carrito está vacío.'}, status=400)
 
+    # Validar cada ítem enviado desde el carrito antes de crear el pedido.
+    # De esta forma protegemos el stock y evitamos compras con datos inválidos.
     errores_stock = []
     productos_a_comprar = []
 

@@ -11,9 +11,10 @@
 </head>
 <body>
     <div class="top-header">
-        <div style="display: flex; align-items: center; gap: 10px;">
+        <div style="display: flex; align-items: center; gap: 12px;">
             <a href="{% url 'web:index' %}" class="btn btn-sm btn-outline-dark">Ver sitio</a>
-            <div><h5><i class="bi bi-at me-2"></i> Nexo Digital</h5></div>
+            <img src="{% static 'assets/Logo.jpeg' %}" alt="Logo Nexo Digital" class="admin-brand-logo rounded-circle shadow-sm">
+            <div><h5 class="mb-0">Nexo Digital</h5></div>
         </div>
         <div class="user-info">
             <span style="font-size: 12px; color: #666;">{{ request.user.username }}</span>
