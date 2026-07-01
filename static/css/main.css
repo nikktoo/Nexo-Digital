@@ -43,6 +43,7 @@ body {
 .product-card-simple {
     flex: 0 0 auto;
     width: 260px;
+    min-width: 260px;
     border: none;
     background: transparent;
 }
@@ -97,12 +98,39 @@ body {
     transition: background 0.2s;
 }
 
-.scroll-btn-right:hover {
-    background-color: #1a1a1a;
+.scroll-btn-right,
+.scroll-btn-left {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background-color: #ffffff;
+    color: #333;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+    transition: background 0.2s, transform 0.2s;
+}
+
+.scroll-btn-right:hover,
+.scroll-btn-left:hover {
+    background-color: #f8f9fa;
+    transform: translateY(-50%) scale(1.03);
+}
+
+.scroll-btn-left {
+    left: 0.5rem;
 }
 
 @media (max-width: 768px) {
-    .scroll-btn-right {
+    .scroll-btn-right,
+    .scroll-btn-left {
         display: none;
     }
 }
@@ -110,11 +138,24 @@ body {
 .product-card {
     transition: transform 0.2s ease-in-out;
     border: 1px solid #eee;
+    min-height: 560px;
+    display: flex;
+    flex-direction: column;
 }
 
 .product-card:hover {
     transform: translateY(-5px);
     box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
+}
+
+.product-card .card-body {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.product-card .card-body .btn {
+    margin-top: auto;
 }
 
 .brand-pill {

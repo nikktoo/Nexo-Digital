@@ -4,6 +4,8 @@ from django.contrib.auth.models import User
 from django.contrib import messages
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
+from django.urls import reverse
+from django.utils.http import url_has_allowed_host_and_scheme
 from django.views.decorators.http import require_POST
 from django.db import transaction
 import json
@@ -11,8 +13,18 @@ from .models import Producto, UserProfile, ContactMessage, Pedido, DetallePedido
 from .forms import ProductoForm
 
 
+def get_safe_next_url(request):
+    next_url = request.POST.get('next') or request.GET.get('next')
+    if next_url and url_has_allowed_host_and_scheme(next_url, allowed_hosts={request.get_host()}):
+        return next_url
+    return None
+
+
 def auth_view(request):
     if request.user.is_authenticated:
+        next_url = get_safe_next_url(request)
+        if next_url:
+            return redirect(next_url)
         if es_admin_web(request.user):
             return redirect('web:admin')
         return redirect('web:index')
@@ -25,9 +37,10 @@ def auth_view(request):
         elif form_type == 'register':
             return register_view(request)
 
-    return render(request, 'web/auth.html')
+    return render(request, 'web/auth.html', {'next': request.GET.get('next', '')})
 
 def login_view(request):
+    next_url = get_safe_next_url(request)
     if request.method == 'POST':
         email = request.POST.get('email', '').strip()
         password = request.POST.get('password', '')
@@ -39,6 +52,8 @@ def login_view(request):
             if user_auth is not None:
                 login(request, user_auth)
                 messages.success(request, f'¡Bienvenido {user_auth.first_name or user_auth.username}!')
+                if next_url:
+                    return redirect(next_url)
                 if es_admin_web(user_auth):
                     return redirect('web:admin')
                 return redirect('web:index')
@@ -47,9 +62,10 @@ def login_view(request):
         except User.DoesNotExist:
             messages.error(request, 'Correo o contraseña incorrectos')
 
-    return render(request, 'web/auth.html')
+    return render(request, 'web/auth.html', {'next': next_url})
 
 def register_view(request):
+    next_url = get_safe_next_url(request)
     if request.method == 'POST':
         full_name = request.POST.get('full_name', '').strip()
         email = request.POST.get('email', '').strip()
@@ -58,15 +74,15 @@ def register_view(request):
 
         if password != password_confirm:
             messages.error(request, 'Las contraseñas no coinciden')
-            return render(request, 'web/auth.html')
+            return render(request, 'web/auth.html', {'next': next_url})
 
         if len(password) < 8:
             messages.error(request, 'La contraseña debe tener al menos 8 caracteres')
-            return render(request, 'web/auth.html')
+            return render(request, 'web/auth.html', {'next': next_url})
 
         if User.objects.filter(email=email).exists():
             messages.error(request, 'Este correo ya está registrado')
-            return render(request, 'web/auth.html')
+            return render(request, 'web/auth.html', {'next': next_url})
 
         try:
             username = email.split('@')[0]
@@ -86,11 +102,13 @@ def register_view(request):
             if user_auth is not None:
                 login(request, user_auth)
                 messages.success(request, f'¡Cuenta creada exitosamente! Bienvenido {full_name}')
+                if next_url:
+                    return redirect(next_url)
                 return redirect('web:index')
         except Exception as e:
             messages.error(request, 'Error al crear la cuenta. Intenta de nuevo.')
 
-    return render(request, 'web/auth.html')
+    return render(request, 'web/auth.html', {'next': next_url})
 
 def logout_view(request):
     logout(request)
@@ -117,8 +135,12 @@ def mision(request):
     return render(request, 'web/mision.html')
 
 def pago(request):
+    if not request.user.is_authenticated:
+        messages.warning(request, 'Debes iniciar sesión con tu correo y contraseña para finalizar el pago.')
+        return redirect(f"{reverse('web:auth')}?next={request.path}")
     return render(request, 'web/pago.html')
 
+@login_required(login_url='web:auth')
 @require_POST
 def procesar_compra(request):
     try:

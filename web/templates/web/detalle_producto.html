@@ -1,5 +1,5 @@
 {% extends "web/base.html" %}
-{% load static %}
+{% load static price_filters %}
 
 {% block title %}{{ producto.nombre }} - Nexo Digital{% endblock %}
 
@@ -8,7 +8,7 @@
     <div class="mb-4 small">
         <a href="{% url 'web:productos' %}" class="text-dark text-decoration-none">Todos los productos</a>
         <span class="mx-2">›</span>
-        <span class="text-muted">{{ producto.categoria }}</span>
+        <a href="{% url 'web:productos' %}?category={{ producto.categoria|urlencode }}" class="text-dark text-decoration-none">{{ producto.categoria }}</a>
         <span class="mx-2">›</span>
         <span class="fw-semibold">{{ producto.nombre }}</span>
     </div>
@@ -71,7 +71,7 @@
                 <p class="text-muted mb-3">{{ producto.descripcion|default:"Producto tecnológico para empresas." }}</p>
 
                 <div class="mb-2">
-                    <span class="fs-2 fw-bold text-dark">${{ producto.precio|floatformat:0 }}</span>
+                    <span class="fs-2 fw-bold text-dark">${{ producto.precio|format_price }}</span>
                 </div>
 
                 <p class="text-muted small mb-3">Precio referencial con impuestos incluidos</p>
@@ -89,7 +89,7 @@
                 {% if producto.stock > 0 %}
                 <button class="btn btn-dark w-100 py-3 fw-bold mb-3"
                         onclick="addToCart({{ producto.id }}, '{{ producto.nombre|escapejs }}', {{ producto.precio|floatformat:0 }}, '{{ producto.imagen_url|default_if_none:''|escapejs }}', {{ producto.stock }})">
-                    <i class="bi bi-cart3 me-2"></i>
+                    <i class="bi bi-chevron-left me-2"></i>
                     AÑADIR AL CARRITO
                 </button>
                 {% else %}

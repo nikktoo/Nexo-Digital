@@ -247,6 +247,21 @@ const CartManager = {
                 body: JSON.stringify(payload),
             });
 
+            if (!response.ok) {
+                if (response.status === 403 || response.redirected) {
+                    alert('Debes iniciar sesión para completar el pago.');
+                    window.location.href = '/login/?next=/pago/';
+                    return;
+                }
+            }
+
+            const contentType = response.headers.get('Content-Type') || '';
+            if (!contentType.includes('application/json')) {
+                alert('Debes iniciar sesión para completar el pago.');
+                window.location.href = '/login/?next=/pago/';
+                return;
+            }
+
             const data = await response.json();
 
             if (response.ok && data.success) {

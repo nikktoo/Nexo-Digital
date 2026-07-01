@@ -1,5 +1,5 @@
 {% extends "web/base.html" %}
-{% load static %}
+{% load static price_filters %}
 
 {% block title %}Inicio - Nexo Digital{% endblock %}
 
@@ -42,10 +42,10 @@
                                 <div class="bg-light d-flex align-items-center justify-content-center" style="height: 200px; width: 100%;"><i class="bi bi-box-seam fs-1 text-muted"></i></div>
                             {% endif %}
                         </div>
-                        <div class="text-start">
+                                <div class="text-start">
                             <h6 class="fw-bold mb-1 text-dark fs-5">{{ producto.nombre }}</h6>
                             <p class="text-muted small mb-2">{{ producto.categoria }}</p>
-                            <h5 class="fw-bold text-dark mb-3">${{ producto.precio|floatformat:0 }}</h5>
+                            <h5 class="fw-bold text-dark mb-3">${{ producto.precio|format_price }}</h5>
                         </div>
                     </a>
                     {% if producto.stock > 0 %}
@@ -58,6 +58,9 @@
                 <p class="text-muted">Aún no hay productos cargados. Agrégalos desde el panel de administración.</p>
                 {% endfor %}
             </div>
+            <button class="btn btn-light shadow-sm position-absolute top-50 start-0 translate-middle-y z-2 rounded-circle scroll-btn-left" onclick="document.getElementById('destacados-scroll').scrollBy({left: -300, behavior: 'smooth'})" style="width: 45px; height: 45px;">
+                <i class="bi bi-chevron-left fs-5"></i>
+            </button>
             <button class="btn btn-light shadow-sm position-absolute top-50 end-0 translate-middle-y z-2 rounded-circle" onclick="document.getElementById('destacados-scroll').scrollBy({left: 300, behavior: 'smooth'})" style="width: 45px; height: 45px;">
                 <i class="bi bi-chevron-right fs-5"></i>
             </button>
@@ -86,7 +89,7 @@
                             <div class="text-start px-2">
                                 <h6 class="fw-bold mb-1 text-dark fs-5">{{ producto.nombre }}</h6>
                                 <p class="text-muted small mb-2">{{ producto.categoria }}</p>
-                                <h5 class="fw-bold text-dark mb-3">${{ producto.precio|floatformat:0 }}</h5>
+                                <h5 class="fw-bold text-dark mb-3">${{ producto.precio|format_price }}</h5>
                             </div>
                         </a>
                         <div class="px-2 pb-2">
@@ -101,6 +104,9 @@
                     <p class="text-muted">Aún no hay productos cargados desde el panel de administración.</p>
                     {% endfor %}
                 </div>
+                <button class="btn btn-white shadow position-absolute top-50 start-0 translate-middle-y z-2 rounded-circle scroll-btn-left" onclick="document.getElementById('recien-llegados-scroll').scrollBy({left: -300, behavior: 'smooth'})" style="width: 45px; height: 45px;">
+                    <i class="bi bi-chevron-left fs-5"></i>
+                </button>
                 <button class="btn btn-white shadow position-absolute top-50 end-0 translate-middle-y z-2 rounded-circle" onclick="document.getElementById('recien-llegados-scroll').scrollBy({left: 300, behavior: 'smooth'})" style="width: 45px; height: 45px;">
                     <i class="bi bi-chevron-right fs-5"></i>
                 </button>

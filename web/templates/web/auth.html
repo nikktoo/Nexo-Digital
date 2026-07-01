@@ -39,6 +39,7 @@
                 <div class="tab-pane fade show active" id="login" role="tabpanel" aria-labelledby="login-tab">
                     <form method="post" action="{% url 'web:login_view' %}" class="auth-form">
                         {% csrf_token %}
+                        <input type="hidden" name="next" value="{{ next }}">
 
                         {% if messages %}
                             {% for message in messages %}
@@ -81,6 +82,7 @@
                 <div class="tab-pane fade" id="register" role="tabpanel" aria-labelledby="register-tab">
                     <form method="post" action="{% url 'web:register_view' %}" class="auth-form" id="registerForm">
                         {% csrf_token %}
+                        <input type="hidden" name="next" value="{{ next }}">
 
                         <div class="mb-3">
                             <label for="register-name" class="form-label fw-semibold">Nombre Completo</label>

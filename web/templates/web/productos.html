@@ -1,5 +1,5 @@
 {% extends "web/base.html" %}
-{% load static %}
+{% load static price_filters %}
 
 {% block title %}Productos - Nexo Digital{% endblock %}
 
@@ -49,7 +49,7 @@
                         {% endif %}
                     </div>
 
-                    <h5 class="text-primary fw-bold mt-auto pt-2">${{ producto.precio|floatformat:0 }}</h5>
+                    <h5 class="text-primary fw-bold mt-auto pt-2">${{ producto.precio|format_price }}</h5>
 
                     {% if producto.stock > 0 %}
                     <button class="btn btn-outline-dark mt-2 w-100 position-relative" style="z-index: 3;"
@@ -77,12 +77,43 @@
 
 {% block extra_js %}
 <script>
+function getQueryParam(name) {
+    const params = new URLSearchParams(window.location.search);
+    return params.get(name);
+}
+
+function activateCategoryButton(category) {
+    const buttons = Array.from(document.querySelectorAll('.btn-outline-dark, .btn-dark'));
+    buttons.forEach(btn => {
+        const buttonText = btn.textContent.trim();
+        const shouldActivate = category === 'all'
+            ? buttonText === 'Todos'
+            : buttonText === category;
+
+        if (shouldActivate) {
+            btn.classList.remove('btn-outline-dark');
+            btn.classList.add('btn-dark');
+        } else {
+            btn.classList.remove('btn-dark');
+            btn.classList.add('btn-outline-dark');
+        }
+    });
+}
+
 function filterProducts(category) {
     const items = document.querySelectorAll('.product-item');
     items.forEach(item => {
         const itemCategory = item.dataset.category;
         item.style.display = (category === 'all' || itemCategory === category) ? '' : 'none';
     });
+    activateCategoryButton(category);
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+    const category = getQueryParam('category');
+    if (category) {
+        filterProducts(category);
+    }
+});
 </script>
 {% endblock %}
