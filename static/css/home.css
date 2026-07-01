@@ -1,5 +1,5 @@
 .hero-video-container {
-    height: 500px; /* Define la altura que prefieras */
+    height: 500px; 
     display: flex;
     align-items: center;
 }

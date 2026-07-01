@@ -144,7 +144,7 @@ const CartManager = {
             container.innerHTML = `
                 <div class="text-center text-muted py-5">
                     <i class="bi bi-cart-x fs-1"></i>
-                    <p class="mt-3">Tu carrito está vacío</p>
+                    <p class="mt-3">Su carrito está vacío</p>
                 </div>
             `;
             totalElement.innerText = '0';

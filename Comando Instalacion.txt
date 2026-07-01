@@ -3,7 +3,19 @@ py -m venv .venv
 python -m pip install --upgrade pip
 pip install -r requirements.txt
 python manage.py migrate
+python3 manage.py loaddata initial_data.json
 python manage.py runserver
+
+
+##  Desde linux:
+
+python3 -m venv .venv
+source .venv/bin/activate
+python3 -m pip install --upgrade pip
+pip install -r requirements.txt
+python3 manage.py migrate
+python3 manage.py loaddata initial_data.json
+python3 manage.py runserver
 
 PANEL ADMIN = http://127.0.0.1:8000/panel-admin/
 
